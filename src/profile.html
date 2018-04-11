@@ -154,9 +154,8 @@
 						<li class="light-blue dropdown-modal">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<img class="nav-user-photo" src="assets/images/avatars/user.jpg" alt="Jason's Photo" />
-								<span class="user-info">
+								<span class="user-info" id="user-info">
 									<small>欢迎回来，</small>
-									Bob
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
@@ -493,5 +492,9 @@
 		<script src="assets/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
+		<script>
+			var username = localStorage.getItem('username')
+			$("#user-info").append(username)
+		</script>
 	</body>
 </html>

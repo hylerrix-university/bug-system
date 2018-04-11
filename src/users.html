@@ -152,9 +152,8 @@
 						<li class="light-blue dropdown-modal">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<img class="nav-user-photo" src="assets/images/avatars/user.jpg" alt="Jason's Photo" />
-								<span class="user-info">
+								<span class="user-info" id="user-info">
 									<small>欢迎回来，</small>
-									Bob
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
@@ -373,6 +372,9 @@
 
 		<!-- 获取所有用户信息 -->
 		<script>
+			var username = localStorage.getItem('username')
+			$("#user-info").append(username)
+			
 			$.get('http://yiranblade.cn/bugsystem/user', function (data) {
 				if (data.code != 200) return
 				var users = data.data
