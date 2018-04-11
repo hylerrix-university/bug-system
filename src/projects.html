@@ -309,9 +309,22 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
+								<div class="row" style="text-align: center">
+									<div class="col-xs-12">
+										<div class="row">
+											<label for="name">项目名称</label><input type="text" id="addName">
+											<label for="type">项目类型</label><input type="text" id="addType">
+											<label for="createUser">创建者</label><input type="text" id="addCreateUser">
+											<label for="descr">项目描述</label><input type="text" id="addDescr">
+											<button id="addButton">新增项目</button>
+										</div>
+									</div>
+								</div>
+
+								<br>
+
 								<div class="row">
 									<div class="col-xs-12">
-
 										<!-- div.table-responsive -->
 
 										<!-- div.dataTables_borderWrap -->
@@ -333,23 +346,8 @@
 													</tr>
 												</thead>
 
-												<tbody>
-													<tr>
-														<td>缺陷管理系统</td>
-														<td>2018-01-01</td>
-														<td>Bob</td>
-														<td>管理系统</td>
-														<td>11</td>
-														<td>7</td>
-														<td>占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符占位符</td>
-														<td>
-															<div class="action-buttons">
-																<a class="red" href="#">
-																	<i class="ace-icon fa fa-trash-o bigger-130"></i>
-																</a>
-															</div>
-														</td>
-													</tr>
+												<tbody id="dynamic-tbody">
+													<!-- ajax here -->
 												</tbody>
 											</table>
 										</div>
@@ -416,5 +414,79 @@
 		<script src="assets/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
+		<script>
+			function renderProjects () {
+				// 清空之前的
+				$("#dynamic-tbody").empty()
+				$.get('http://yiranblade.cn/bugsystem/project', function (data) {
+					if (data.code == 200) {
+						var projectArr = data.data
+						console.log(projectArr)
+						for (var i = 0; i < projectArr.length; i++) {
+							var tempDiv = '' + 
+								'<tr>' + 
+									'<td>' + projectArr[i].name + '</td>' + 
+									'<td>' + projectArr[i].createTime + '</td>' + 
+									'<td>' + projectArr[i].createUser + '</td>' + 
+									'<td>' + projectArr[i].type + '</td>' + 
+									'<td>' + '等待接口' + '</td>' + 
+									'<td>' + '等待接口' + '</td>' + 
+									'<td>' + projectArr[i].descr + '</td>' + 
+									'<td>' + 
+										'<div class="action-buttons">' + 
+											'<a class="red" onclick="deleteProject(' + projectArr[i].projectId + ')">' + 
+												'<i class="ace-icon fa fa-trash-o bigger-130"></i>' + 
+											'</a>' + 
+										'</div>' + 
+									'</td>' + 
+								'</tr>'
+							$("#dynamic-tbody").append(tempDiv)
+						}
+					}
+				})
+			}
+
+			function deleteProject (projectId) {
+				var delete_url = 'http://yiranblade.cn/bugsystem/project/' + projectId
+				$.ajax({
+					url: delete_url,
+					type: 'DELETE',
+					data: {},
+					success: function (data) {
+						alert('删除成功！')
+						window.location.href = './projects.html'
+					},
+					error: function (data) {
+						alert('删除失败！')
+						window.location.href = './projects.html'
+					}
+				})
+			}
+
+			$('#addButton').click(function () {
+				var addName = $("#addName").val()
+				var addCreateUser = $("#addCreateUser").val()
+				var addType = $("#addType").val()
+				var addDescr = $("#addDescr").val()
+				if (!addName || !addType || !addDescr || !addCreateUser) {
+					alert('数据不能为空！')
+					return
+				}
+				$.post('http://yiranblade.cn/bugsystem/project', {
+					name: addName,
+					createUser: addCreateUser,
+					type: addType,
+					desc: addDescr
+				}, function (data) {
+					if (data.code == '200') {
+						alert('新增项目成功！')
+					} else {
+						alert('新增项目失败！')
+					}
+				})
+			})
+			
+			renderProjects()
+		</script>
 	</body>
 </html>
