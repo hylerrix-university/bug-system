@@ -263,7 +263,6 @@
 										<div class="row">
 											<label for="name">项目名称</label><input type="text" id="addName">
 											<label for="type">项目类型</label><input type="text" id="addType">
-											<label for="createUser">创建者</label><input type="text" id="addCreateUser">
 											<label for="descr">项目描述</label><input type="text" id="addDescr">
 											<button id="addButton">新增项目</button>
 										</div>
@@ -451,7 +450,7 @@
 
 			$('#addButton').click(function () {
 				var addName = $("#addName").val()
-				var addCreateUser = $("#addCreateUser").val()
+				var addCreateUser = localStorage.getItem('username')
 				var addType = $("#addType").val()
 				var addDescr = $("#addDescr").val()
 				if (!addName || !addType || !addDescr || !addCreateUser) {
@@ -481,7 +480,6 @@
 					}
                 })
 			})
-			
 			renderProjects()
 		</script>
 	</body>

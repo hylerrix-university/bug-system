@@ -265,6 +265,78 @@
                             </div>
                             <!-- PAGE CONTENT ENDS -->
 						</div><!-- /.row -->
+
+						<!-- 新增缺陷，模态框（Modal） -->
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+											&times;
+										</button>
+										<h4 class="modal-title" id="myModalLabel">
+											新增缺陷
+										</h4>
+									</div>
+									<div class="modal-body">
+										<form class="form-horizontal" role="form">
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 缺陷名称 </label>
+
+												<div class="col-sm-9">
+													<input type="text" id="form-field-1" placeholder="请输入..." class="col-xs-10 col-sm-5" />
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 缺陷描述 </label>
+
+												<div class="col-sm-9">
+													<input type="text" id="form-field-2" placeholder="请输入..." class="form-control" />
+												</div>
+											</div>
+
+											<div class="space-4"></div>
+
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 优先级 </label>
+
+												<div class="col-sm-9">
+													<select class="chosen-select form-control" id="form-field-3" data-placeholder="Choose a State...">
+														<option value="">请选择</option>
+														<option value="2001">一般</option>
+														<option value="2002">紧急</option>
+														<option value="2003">十分紧急</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="space-4"></div>
+
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 负责人 </label>
+
+												<div class="col-sm-9">
+													<select class="chosen-select form-control" id="form-field-4" data-placeholder="Choose a State...">
+														<option value="">请选择</option>
+														<!-- ajax -->
+													</select>
+												</div>
+											</div>
+
+											<div class="space-4"></div>
+										</form>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+										</button>
+										<button type="button" class="btn btn-primary" onclick="addBug()">
+											提交更改
+										</button>
+									</div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal -->
+						</div>
 					</div><!-- /.page-content -->
 				</div>
 			</div><!-- /.main-content -->
@@ -300,15 +372,24 @@
 		<!-- <![endif]-->
 
 		<!--[if IE]>
-<script src="assets/js/jquery-1.11.3.min.js"></script>
-<![endif]-->
+		<script src="assets/js/jquery-1.11.3.min.js"></script>
+		<![endif]-->
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+            if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
 		<script src="assets/js/bootstrap.min.js"></script>
 
 		<!-- page specific plugin scripts -->
-		<script src="assets/js/dropzone.min.js"></script>
+
+		<!--[if lte IE 8]>
+		<script src="assets/js/excanvas.min.js"></script>
+		<![endif]-->
+		<script src="assets/js/jquery-ui.custom.min.js"></script>
+		<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="assets/js/bootbox.js"></script>
+		<script src="assets/js/jquery.easypiechart.min.js"></script>
+		<script src="assets/js/jquery.gritter.min.js"></script>
+		<script src="assets/js/spin.js"></script>
 
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
@@ -379,6 +460,49 @@
 				}
 			})
 
+			// 保存 projectId，目的是用笨办法 -> 模态框传参
+			function saveProjectId (projectId) {
+			    localStorage.setItem('projectId', projectId)
+			}
+
+			// 新增缺陷
+			function addBug () {
+			    var projectId = localStorage.getItem('projectId')
+				var bugName = $('#form-field-1').val()
+				var detail = $('#form-field-2').val()
+				var level = $('#form-field-3').val()
+				var owner = $('#form-field-4').val()
+				var finishedStatus = 3001
+
+				$.post('http://yiranblade.cn/bugsystem/bug', {
+                    bugName: bugName,
+                    detail: detail,
+                    projectId: projectId,
+                    level: level,
+                    finishedStatus: finishedStatus,
+                    owner: owner
+				}, function (data) {
+					if (data.code == 200) {
+						alert('新增缺陷成功，即将刷新页面！')
+                        window.location.href = './bugs.html'
+					} else {
+					    alert('新增缺陷失败！')
+					}
+				})
+			}
+
+			// 更新缺陷
+			function updataBug (bugId) {
+                alert('更新缺陷' + bugId)
+                bootbox.prompt("请选择负责人", function(result) {
+                    if (result === null) {
+
+                    } else {
+
+                    }
+                })
+			}
+
 			function renderBugProject (mergeThing) {
                 // 遍历每一个项目
 				for (var i = 0; i < mergeThing.length; i++) {
@@ -402,8 +526,11 @@
 								'<div class="widget-header widget-header-large">' +
 									'<h3 class="widget-title grey lighter">' +
 										'<i class="ace-icon fa fa-leaf green"></i>' +
-										'' + project.name + '' +
-									'</h3>' +
+										'' + project.name + '&nbsp;&nbsp;&nbsp;&nbsp;' +
+										'<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="saveProjectId(' + project.projectId + ')">' +
+											'新增缺陷' +
+                        				'</button>' +
+                                        '</h3>' +
 								'</div>' +
 
 								'<div class="widget-body">' +
@@ -498,7 +625,13 @@
                             '<td>...</td>' +
                             '<td>' + finishedStatus + '</td>' +
                             '<td>' + createTime + '</td>' +
-                            '<td>操作</td>' +
+                            '<td>' +
+								'<div class="action-buttons">' +
+									'<a class="red" onclick="updateBug(' + bugId + ')">' +
+										'<i class="ace-icon fa fa-pencil-square-o bigger-130"></i>' +
+									'</a>' +
+								'</div>' +
+							'</td>' +
                             '</tr>'
                         $("#bugTbody").append(tempBugDiv)
                     }

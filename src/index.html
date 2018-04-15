@@ -285,10 +285,8 @@
 
 											<div class="infobox-data">
 												<span class="infobox-data-number">项目</span>
-												<div class="infobox-content">0 个托管项目</div>
+												<div class="infobox-content"><span id="projectAllTotal">...</span> 个托管项目</div>
 											</div>
-
-											<div class="stat stat-success">8%</div>
 										</div>
 
 										<div class="infobox infobox-orange2">
@@ -317,7 +315,7 @@
 												<span class="infobox-data-number">缺陷</span>
 
 												<div class="infobox-content">
-												    0 个剩余缺陷
+													<span id="bugAllTotal">...</span> 个系统缺陷
 												</div>
 											</div>
 
@@ -888,6 +886,24 @@
 			        console.log('该用户暂时没有负责的缺陷')
 				}
 			})
+
+			// 获取所有项目，渲染个数
+			$.get('http://yiranblade.cn/bugsystem/project', function (data) {
+			    if (data.code == 200) {
+					$('#projectAllTotal').text(data.data.length)
+				} else {
+			        alert('获取所有项目失败！')
+				}
+			})
+
+            // 获取所有缺陷，渲染个数
+            $.get('http://yiranblade.cn/bugsystem/bug', function (data) {
+                if (data.code == 200) {
+                    $('#bugAllTotal').text(data.data.length)
+                } else {
+                    alert('获取所有项目失败！')
+                }
+            })
 
 		    // 渲染缺陷分配动态表
 			$.get('http://yiranblade.cn/bugsystem/bug/arrange/all', function (data) {
