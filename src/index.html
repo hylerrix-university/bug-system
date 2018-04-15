@@ -969,6 +969,22 @@
 		<script>
 			var username = localStorage.getItem('username')
 			$("#user-info").append(username)
+
+		    // 根据用户 id 获取缺陷
+			var userId = localStorage.getItem('userId')
+			var get_url = 'http://yiranblade.cn/bugsystem/bug/user/' + userId
+			$.get(get_url, function (data) {
+			    if (data.code == 200 && data.data.length !== 0) {
+			        for (var i = 0; i < data.data; i++) {
+			            var bug = data.data[i]
+                        var bugName = bug.bugName
+						var finishedStatus = bug.finishedStatus
+					    // 待做
+					}
+				} else {
+			        console.log('该用户暂时没有负责的缺陷')
+				}
+			})
 		</script>
 	</body>
 </html>

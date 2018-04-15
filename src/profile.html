@@ -325,7 +325,7 @@
 												<div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
 													<div class="inline position-relative">
 														<a href="javascript:;" class="user-title-label dropdown-toggle" data-toggle="dropdown">
-															<span class="white">Bob</span>
+															<span class="white" id="nameLeft">加载中...</span>
 														</a>
 													</div>
 												</div>
@@ -337,21 +337,21 @@
 										<div class="col-xs-12 col-sm-9">
 											<div class="center">
 												<span class="btn btn-app btn-sm btn-success no-hover">
-													<span class="line-height-1 bigger-170"> 1 </span>
+													<span class="line-height-1 bigger-170" id="userProject"> ... </span>
 
 													<br />
 													<span class="line-height-1 smaller-90"> 手头项目 </span>
 												</span>
 
 												<span class="btn btn-app btn-sm btn-pink no-hover">
-													<span class="line-height-1 bigger-170"> 2 </span>
+													<span class="line-height-1 bigger-170" id="userBugNotDone"> ... </span>
 
 													<br />
 													<span class="line-height-1 smaller-90"> 待做缺陷 </span>
 												</span>
 
 												<span class="btn btn-app btn-sm btn-grey no-hover">
-													<span class="line-height-1 bigger-170"> 4 </span>
+													<span class="line-height-1 bigger-170" id="userBugDone"> ... </span>
 
 													<br />
 													<span class="line-height-1 smaller-90"> 完成缺陷 </span>
@@ -365,7 +365,7 @@
 													<div class="profile-info-name"> 账号 </div>
 
 													<div class="profile-info-value">
-														<span class="editable" id="username">04153088</span>
+														<span class="editable" id="username">加载中...</span>
 													</div>
 												</div>
 
@@ -381,7 +381,7 @@
 													<div class="profile-info-name"> 昵称 </div>
 
 													<div class="profile-info-value">
-														<span class="editable" id="nick">Bob</span>
+														<span class="editable" id="name">加载中...</span>
 													</div>
 												</div>
 
@@ -389,7 +389,7 @@
 													<div class="profile-info-name"> 角色 </div>
 
 													<div class="profile-info-value">
-														<span class="editable" id="role">管理员</span>
+														<span class="editable" id="role">等待接口...</span>
 													</div>
 												</div>
 
@@ -397,7 +397,7 @@
 													<div class="profile-info-name"> 部门 </div>
 
 													<div class="profile-info-value">
-														<span class="editable" id="role">基础平台部</span>
+														<span class="editable" id="department">加载中...</span>
 													</div>
 												</div>
 
@@ -405,7 +405,7 @@
 													<div class="profile-info-name"> 邮箱 </div>
 
 													<div class="profile-info-value">
-														<span class="editable" id="login">root@ace-admin.com</span>
+														<span class="editable" id="email">加载中...</span>
 													</div>
 												</div>
 
@@ -413,7 +413,7 @@
 													<div class="profile-info-name"> 操作 </div>
 
 													<div class="profile-info-value">
-														<a class="green" href="#">
+														<a class="green" onclick="alert('为安全起见，暂时无法修改自己的信息。\n若有需要，请联系管理员 root@ace-admin.com!')">
 															<i class="ace-icon fa fa-pencil bigger-130"></i>
 														</a>
 													</div>
@@ -423,7 +423,7 @@
 													<div class="profile-info-name"> 最后上线时间 </div>
 
 													<div class="profile-info-value">
-														<span class="editable" id="about">2018-01-01</span>
+														<span class="editable" id="createTime">加载中...1</span>
 													</div>
 												</div>
 											</div>
@@ -503,6 +503,38 @@
 		<script>
 			var username = localStorage.getItem('username')
 			$("#user-info").append(username)
+
+			var userId = localStorage.getItem('userId')
+			var name = localStorage.getItem('name')
+            var role = localStorage.getItem('role')
+			var department = localStorage.getItem('department')
+			var email = localStorage.getItem('email')
+			var createTime = localStorage.getItem('createTime')
+
+			$('#name').text(name)
+            $('#nameLeft').text(name)
+            $('#role').text(role)
+            $('#department').text(department)
+            $('#email').text(email)
+            $('#createTime').text(createTime)
+
+		    // 获取手头项目个数 localStorage
+            var userProject = localStorage.getItem('userProject')
+			$("#userProject").text(userProject.length)
+
+		    // 获取缺陷 localStorage
+            var userBug = localStorage.getItem('userBug')
+            var bugNotDone = 0
+            var bugDone = 0
+			for (var i = 0; i < userBug.length; i++) {
+                if (userBug[i].finishedStatus === 3001 || userBug[i].finishedStatus === 3002) {
+                    bugNotDone++
+				} else if (userBug[i].finishedStatus === 3003) {
+                    userBugDone++
+				}
+			}
+			$("#userBugNotDone").text(bugNotDone)
+            $("#userBugDone").text(bugDone)
 		</script>
 	</body>
 </html>

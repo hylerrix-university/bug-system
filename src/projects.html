@@ -474,19 +474,28 @@
 					alert('数据不能为空！')
 					return
 				}
-				$.post('http://yiranblade.cn/bugsystem/project', {
-					name: addName,
-					createUser: addCreateUser,
-					type: addType,
-					desc: addDescr
-				}, function (data) {
-					if (data.code == '200') {
-						alert('新增项目成功！')
-						renderProjects()
-					} else {
-						alert('新增项目失败！')
+                $.ajax({
+                    url: 'http://yiranblade.cn/bugsystem/project',
+                    type: 'POST',
+                    headers : {
+                        'Content-Type' : 'application/json'
+                    },
+					data: {
+                        name: addName,
+                        createUser: addCreateUser,
+                        type: addType,
+                        desc: addDescr
+                    },
+                    async: false,
+                    success: function (data) {
+                        alert('新增项目成功！')
+                        renderProjects()
+                    },
+                    error: function (data) {
+                        console.log(data)
+                        alert('新增项目失败！')
 					}
-				})
+                })
 			})
 			
 			renderProjects()
