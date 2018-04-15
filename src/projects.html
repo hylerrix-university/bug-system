@@ -72,77 +72,27 @@
 						<li class="grey dropdown-modal">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="ace-icon fa fa-tasks"></i>
-								<span class="badge badge-grey">4</span>
+								<span class="badge badge-grey" id="bugTotal_1"></span>
 							</a>
 
 							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="ace-icon fa fa-check"></i>
-									4 个缺陷待完成
+									共负责 <span id="bugTotal_2">...</span> 个缺陷
 								</li>
 
 								<li class="dropdown-content">
-									<ul class="dropdown-menu dropdown-navbar">
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">软件更新</span>
-													<span class="pull-right">65%</span>
-												</div>
-
-												<div class="progress progress-mini">
-													<div style="width:65%" class="progress-bar"></div>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">硬件更新</span>
-													<span class="pull-right">35%</span>
-												</div>
-
-												<div class="progress progress-mini">
-													<div style="width:35%" class="progress-bar progress-bar-danger"></div>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">单元测试</span>
-													<span class="pull-right">15%</span>
-												</div>
-
-												<div class="progress progress-mini">
-													<div style="width:15%" class="progress-bar progress-bar-warning"></div>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">缺陷修复</span>
-													<span class="pull-right">90%</span>
-												</div>
-
-												<div class="progress progress-mini progress-striped active">
-													<div style="width:90%" class="progress-bar progress-bar-success"></div>
-												</div>
-											</a>
-										</li>
+									<ul class="dropdown-menu dropdown-navbar" id="bugList">
+										<!-- ajax -->
 									</ul>
 								</li>
 
-								<li class="dropdown-footer">
-									<a href="#">
-										查看所有缺陷详情
-										<i class="ace-icon fa fa-arrow-right"></i>
-									</a>
-								</li>
+								<!--<li class="dropdown-footer">-->
+								<!--<a href="#">-->
+								<!--查看所有缺陷详情-->
+								<!--<i class="ace-icon fa fa-arrow-right"></i>-->
+								<!--</a>-->
+								<!--</li>-->
 							</ul>
 						</li>
 
@@ -417,6 +367,38 @@
 			var username = localStorage.getItem('username')
 			$("#user-info").append(username)
 
+            // 根据用户 id 获取缺陷
+            var userId = localStorage.getItem('userId')
+            var get_url = 'http://yiranblade.cn/bugsystem/bug/user/' + userId
+            $.get(get_url, function (data) {
+                if (data.code == 200) {
+                    var bugTotal = data.data.length
+                    $('#bugTotal_1').text(bugTotal)
+                    $('#bugTotal_2').text(bugTotal)
+                    for (var i = 0; i < data.data.length; i++) {
+                        var bug = data.data[i]
+                        var bugName = bug.bugName
+                        var finishedStatus = bug.finishedStatus
+                        var tempDiv =
+                            '<li>' +
+                            '<a href="#">' +
+                            '<div class="clearfix">' +
+                            '<span class="pull-left">' + bugName + '</span>' +
+                            '<span class="pull-right">' + finishedStatus + '</span>' +
+                            '</div>' +
+
+                            '<div class="progress progress-mini">' +
+                            '<div style="width:50%" class="progress-bar"></div>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>'
+                        $('#bugList').appendChild(tempDiv)
+                    }
+                } else {
+                    console.log('该用户暂时没有负责的缺陷')
+                }
+            })
+
 			function renderProjects () {
 				// 清空之前的
 				$("#dynamic-tbody").empty()
@@ -425,22 +407,24 @@
 						var projectArr = data.data
 						console.log(projectArr)
 						for (var i = 0; i < projectArr.length; i++) {
-							var tempDiv = '' + 
-								'<tr>' + 
-									'<td>' + projectArr[i].name + '</td>' + 
-									'<td>' + projectArr[i].createTime + '</td>' + 
-									'<td>' + projectArr[i].createUser + '</td>' + 
-									'<td>' + projectArr[i].type + '</td>' + 
-									'<td>' + '等待接口' + '</td>' + 
-									'<td>' + '等待接口' + '</td>' + 
-									'<td>' + projectArr[i].descr + '</td>' + 
-									'<td>' + 
-										'<div class="action-buttons">' + 
-											'<a class="red" onclick="deleteProject(' + projectArr[i].projectId + ')">' + 
-												'<i class="ace-icon fa fa-trash-o bigger-130"></i>' + 
-											'</a>' + 
-										'</div>' + 
-									'</td>' + 
+						    // 根据项目 id 获取该项目缺陷、文档的个数
+
+							var tempDiv = '' +
+								'<tr>' +
+									'<td>' + projectArr[i].name + '</td>' +
+									'<td>' + projectArr[i].createTime + '</td>' +
+									'<td>' + projectArr[i].createUser + '</td>' +
+									'<td>' + projectArr[i].type + '</td>' +
+									'<td>' + projectArr[i].bugNum + '</td>' +
+									'<td>' + projectArr[i].docNum + '</td>' +
+									'<td>' + projectArr[i].descr + '</td>' +
+									'<td>' +
+										'<div class="action-buttons">' +
+											'<a class="red" onclick="deleteProject(' + projectArr[i].projectId + ')">' +
+												'<i class="ace-icon fa fa-trash-o bigger-130"></i>' +
+											'</a>' +
+										'</div>' +
+									'</td>' +
 								'</tr>'
 							$("#dynamic-tbody").append(tempDiv)
 						}

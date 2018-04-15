@@ -72,77 +72,27 @@
 						<li class="grey dropdown-modal">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="ace-icon fa fa-tasks"></i>
-								<span class="badge badge-grey">4</span>
+								<span class="badge badge-grey" id="bugTotal_1"></span>
 							</a>
 
 							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="ace-icon fa fa-check"></i>
-									4 个缺陷待完成
+									共负责 <span id="bugTotal_2">...</span> 个缺陷
 								</li>
 
 								<li class="dropdown-content">
-									<ul class="dropdown-menu dropdown-navbar">
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">软件更新</span>
-													<span class="pull-right">65%</span>
-												</div>
-
-												<div class="progress progress-mini">
-													<div style="width:65%" class="progress-bar"></div>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">硬件更新</span>
-													<span class="pull-right">35%</span>
-												</div>
-
-												<div class="progress progress-mini">
-													<div style="width:35%" class="progress-bar progress-bar-danger"></div>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">单元测试</span>
-													<span class="pull-right">15%</span>
-												</div>
-
-												<div class="progress progress-mini">
-													<div style="width:15%" class="progress-bar progress-bar-warning"></div>
-												</div>
-											</a>
-										</li>
-
-										<li>
-											<a href="#">
-												<div class="clearfix">
-													<span class="pull-left">缺陷修复</span>
-													<span class="pull-right">90%</span>
-												</div>
-
-												<div class="progress progress-mini progress-striped active">
-													<div style="width:90%" class="progress-bar progress-bar-success"></div>
-												</div>
-											</a>
-										</li>
+									<ul class="dropdown-menu dropdown-navbar" id="bugList">
+										<!-- ajax -->
 									</ul>
 								</li>
 
-								<li class="dropdown-footer">
-									<a href="#">
-										查看所有缺陷详情
-										<i class="ace-icon fa fa-arrow-right"></i>
-									</a>
-								</li>
+								<!--<li class="dropdown-footer">-->
+									<!--<a href="#">-->
+										<!--查看所有缺陷详情-->
+										<!--<i class="ace-icon fa fa-arrow-right"></i>-->
+									<!--</a>-->
+								<!--</li>-->
 							</ul>
 						</li>
 
@@ -335,7 +285,7 @@
 
 											<div class="infobox-data">
 												<span class="infobox-data-number">项目</span>
-												<div class="infobox-content">7 个托管项目</div>
+												<div class="infobox-content">0 个托管项目</div>
 											</div>
 
 											<div class="stat stat-success">8%</div>
@@ -358,8 +308,8 @@
 
 										<div class="infobox infobox-blue2">
 											<div class="infobox-progress">
-												<div class="easy-pie-chart percentage" data-percent="42" data-size="46">
-													<span class="percent">42</span>%
+												<div class="easy-pie-chart percentage" data-percent="100" data-size="46">
+													<span class="percent">100</span>%
 												</div>
 											</div>
 
@@ -367,7 +317,7 @@
 												<span class="infobox-data-number">缺陷</span>
 
 												<div class="infobox-content">
-												    4132 个剩余缺陷
+												    0 个剩余缺陷
 												</div>
 											</div>
 
@@ -388,178 +338,178 @@
 
 								<div class="row">
 									<div class="col-sm-6">
-										<div class="widget-box transparent" id="recent-box">
-											<div class="widget-header">
-												<h4 class="widget-title lighter smaller">
-													<i class="ace-icon fa fa-rss orange"></i>最近上线
-												</h4>
-											</div>
+										<!--<div class="widget-box transparent" id="recent-box">-->
+											<!--<div class="widget-header">-->
+												<!--<h4 class="widget-title lighter smaller">-->
+													<!--<i class="ace-icon fa fa-rss orange"></i>最近上线-->
+												<!--</h4>-->
+											<!--</div>-->
 
-											<div class="widget-body">
-												<div class="widget-main padding-4">
-													<div class="tab-content padding-8">
+											<!--<div class="widget-body">-->
+												<!--<div class="widget-main padding-4">-->
+													<!--<div class="tab-content padding-8">-->
 
-														<div id="task-tab" class="tab-pane active">
-															<div class="clearfix">
-																<div class="itemdiv memberdiv">
-																	<div class="user">
-																		<img alt="Bob Doe's avatar" src="assets/images/avatars/user.jpg" />
-																	</div>
+														<!--<div id="task-tab" class="tab-pane active">-->
+															<!--<div class="clearfix">-->
+																<!--<div class="itemdiv memberdiv">-->
+																	<!--<div class="user">-->
+																		<!--<img alt="Bob Doe's avatar" src="assets/images/avatars/user.jpg" />-->
+																	<!--</div>-->
 
-																	<div class="body">
-																		<div class="name">
-																			<a href="javascript:;">Bob Doe</a>
-																		</div>
+																	<!--<div class="body">-->
+																		<!--<div class="name">-->
+																			<!--<a href="javascript:;">Bob Doe</a>-->
+																		<!--</div>-->
 
-																		<div class="time">
-																			<i class="ace-icon fa fa-clock-o"></i>
-																			<span class="green">20 分钟前</span>
-																		</div>
-																	</div>
-																</div>
+																		<!--<div class="time">-->
+																			<!--<i class="ace-icon fa fa-clock-o"></i>-->
+																			<!--<span class="green">20 分钟前</span>-->
+																		<!--</div>-->
+																	<!--</div>-->
+																<!--</div>-->
 
-																<div class="itemdiv memberdiv">
-																	<div class="user">
-																		<img alt="Joe Doe's avatar" src="assets/images/avatars/avatar2.png" />
-																	</div>
+																<!--<div class="itemdiv memberdiv">-->
+																	<!--<div class="user">-->
+																		<!--<img alt="Joe Doe's avatar" src="assets/images/avatars/avatar2.png" />-->
+																	<!--</div>-->
 
-																	<div class="body">
-																		<div class="name">
-																			<a href="javascript:;">Joe Doe</a>
-																		</div>
+																	<!--<div class="body">-->
+																		<!--<div class="name">-->
+																			<!--<a href="javascript:;">Joe Doe</a>-->
+																		<!--</div>-->
 
-																		<div class="time">
-																			<i class="ace-icon fa fa-clock-o"></i>
-																			<span class="green">1 小时前</span>
-																		</div>
-																	</div>
-																</div>
+																		<!--<div class="time">-->
+																			<!--<i class="ace-icon fa fa-clock-o"></i>-->
+																			<!--<span class="green">1 小时前</span>-->
+																		<!--</div>-->
+																	<!--</div>-->
+																<!--</div>-->
 
-																<div class="itemdiv memberdiv">
-																	<div class="user">
-																		<img alt="Jim Doe's avatar" src="assets/images/avatars/avatar.png" />
-																	</div>
+																<!--<div class="itemdiv memberdiv">-->
+																	<!--<div class="user">-->
+																		<!--<img alt="Jim Doe's avatar" src="assets/images/avatars/avatar.png" />-->
+																	<!--</div>-->
 
-																	<div class="body">
-																		<div class="name">
-																			<a href="javascript:;">Jim Doe</a>
-																		</div>
+																	<!--<div class="body">-->
+																		<!--<div class="name">-->
+																			<!--<a href="javascript:;">Jim Doe</a>-->
+																		<!--</div>-->
 
-																		<div class="time">
-																			<i class="ace-icon fa fa-clock-o"></i>
-																			<span class="green">2 小时前</span>
-																		</div>
-																	</div>
-																</div>
+																		<!--<div class="time">-->
+																			<!--<i class="ace-icon fa fa-clock-o"></i>-->
+																			<!--<span class="green">2 小时前</span>-->
+																		<!--</div>-->
+																	<!--</div>-->
+																<!--</div>-->
 
-																<div class="itemdiv memberdiv">
-																	<div class="user">
-																		<img alt="Alex Doe's avatar" src="assets/images/avatars/avatar5.png" />
-																	</div>
+																<!--<div class="itemdiv memberdiv">-->
+																	<!--<div class="user">-->
+																		<!--<img alt="Alex Doe's avatar" src="assets/images/avatars/avatar5.png" />-->
+																	<!--</div>-->
 
-																	<div class="body">
-																		<div class="name">
-																			<a href="javascript:;">Alex Doe</a>
-																		</div>
+																	<!--<div class="body">-->
+																		<!--<div class="name">-->
+																			<!--<a href="javascript:;">Alex Doe</a>-->
+																		<!--</div>-->
 
-																		<div class="time">
-																			<i class="ace-icon fa fa-clock-o"></i>
-																			<span class="green">3 小时前</span>
-																		</div>
-																	</div>
-																</div>
+																		<!--<div class="time">-->
+																			<!--<i class="ace-icon fa fa-clock-o"></i>-->
+																			<!--<span class="green">3 小时前</span>-->
+																		<!--</div>-->
+																	<!--</div>-->
+																<!--</div>-->
 
-																<div class="itemdiv memberdiv">
-																	<div class="user">
-																		<img alt="Bob Doe's avatar" src="assets/images/avatars/avatar2.png" />
-																	</div>
+																<!--<div class="itemdiv memberdiv">-->
+																	<!--<div class="user">-->
+																		<!--<img alt="Bob Doe's avatar" src="assets/images/avatars/avatar2.png" />-->
+																	<!--</div>-->
 
-																	<div class="body">
-																		<div class="name">
-																			<a href="javascript:;">Bob Doe</a>
-																		</div>
+																	<!--<div class="body">-->
+																		<!--<div class="name">-->
+																			<!--<a href="javascript:;">Bob Doe</a>-->
+																		<!--</div>-->
 
-																		<div class="time">
-																			<i class="ace-icon fa fa-clock-o"></i>
-																			<span class="green">6 小时前</span>
-																		</div>
-																	</div>
-																</div>
+																		<!--<div class="time">-->
+																			<!--<i class="ace-icon fa fa-clock-o"></i>-->
+																			<!--<span class="green">6 小时前</span>-->
+																		<!--</div>-->
+																	<!--</div>-->
+																<!--</div>-->
 
-																<div class="itemdiv memberdiv">
-																	<div class="user">
-																		<img alt="Susan's avatar" src="assets/images/avatars/avatar3.png" />
-																	</div>
+																<!--<div class="itemdiv memberdiv">-->
+																	<!--<div class="user">-->
+																		<!--<img alt="Susan's avatar" src="assets/images/avatars/avatar3.png" />-->
+																	<!--</div>-->
 
-																	<div class="body">
-																		<div class="name">
-																			<a href="javascript:;">Susan</a>
-																		</div>
+																	<!--<div class="body">-->
+																		<!--<div class="name">-->
+																			<!--<a href="javascript:;">Susan</a>-->
+																		<!--</div>-->
 
-																		<div class="time">
-																			<i class="ace-icon fa fa-clock-o"></i>
-																			<span class="green">1 天前</span>
-																		</div>
-																	</div>
-																</div>
+																		<!--<div class="time">-->
+																			<!--<i class="ace-icon fa fa-clock-o"></i>-->
+																			<!--<span class="green">1 天前</span>-->
+																		<!--</div>-->
+																	<!--</div>-->
+																<!--</div>-->
 
-																<div class="itemdiv memberdiv">
-																	<div class="user">
-																		<img alt="Phil Doe's avatar" src="assets/images/avatars/avatar4.png" />
-																	</div>
+																<!--<div class="itemdiv memberdiv">-->
+																	<!--<div class="user">-->
+																		<!--<img alt="Phil Doe's avatar" src="assets/images/avatars/avatar4.png" />-->
+																	<!--</div>-->
 
-																	<div class="body">
-																		<div class="name">
-																			<a href="javascript:;">Phil Doe</a>
-																		</div>
+																	<!--<div class="body">-->
+																		<!--<div class="name">-->
+																			<!--<a href="javascript:;">Phil Doe</a>-->
+																		<!--</div>-->
 
-																		<div class="time">
-																			<i class="ace-icon fa fa-clock-o"></i>
-																			<span class="green">2 天前</span>
-																		</div>
-																	</div>
-																</div>
+																		<!--<div class="time">-->
+																			<!--<i class="ace-icon fa fa-clock-o"></i>-->
+																			<!--<span class="green">2 天前</span>-->
+																		<!--</div>-->
+																	<!--</div>-->
+																<!--</div>-->
 
-																<div class="itemdiv memberdiv">
-																	<div class="user">
-																		<img alt="Alexa Doe's avatar" src="assets/images/avatars/avatar1.png" />
-																	</div>
+																<!--<div class="itemdiv memberdiv">-->
+																	<!--<div class="user">-->
+																		<!--<img alt="Alexa Doe's avatar" src="assets/images/avatars/avatar1.png" />-->
+																	<!--</div>-->
 
-																	<div class="body">
-																		<div class="name">
-																			<a href="javascript:;">Alexa Doe</a>
-																		</div>
+																	<!--<div class="body">-->
+																		<!--<div class="name">-->
+																			<!--<a href="javascript:;">Alexa Doe</a>-->
+																		<!--</div>-->
 
-																		<div class="time">
-																			<i class="ace-icon fa fa-clock-o"></i>
-																			<span class="green">3 天前</span>
-																		</div>
-																	</div>
-																</div>
-															</div>
+																		<!--<div class="time">-->
+																			<!--<i class="ace-icon fa fa-clock-o"></i>-->
+																			<!--<span class="green">3 天前</span>-->
+																		<!--</div>-->
+																	<!--</div>-->
+																<!--</div>-->
+															<!--</div>-->
 
-															<div class="space-4"></div>
+															<!--<div class="space-4"></div>-->
 
-															<div class="center">
-																<i class="ace-icon fa fa-users fa-2x green middle"></i>
+															<!--<div class="center">-->
+																<!--<i class="ace-icon fa fa-users fa-2x green middle"></i>-->
 
-																&nbsp;
-																<a href="#" class="btn btn-sm btn-white btn-info">
-																	查看所有成员 &nbsp;
-																	<i class="ace-icon fa fa-arrow-right"></i>
-																</a>
-															</div>
+																<!--&nbsp;-->
+																<!--<a href="#" class="btn btn-sm btn-white btn-info">-->
+																	<!--查看所有成员 &nbsp;-->
+																	<!--<i class="ace-icon fa fa-arrow-right"></i>-->
+																<!--</a>-->
+															<!--</div>-->
 
-															<div class="hr hr-double hr8"></div>
-														</div><!-- /.#member-tab -->
+															<!--<div class="hr hr-double hr8"></div>-->
+														<!--</div>&lt;!&ndash; /.#member-tab &ndash;&gt;-->
 
-													</div>
-												</div><!-- /.widget-main -->
-											</div><!-- /.widget-body -->
-										</div><!-- /.widget-box -->
+													<!--</div>-->
+												<!--</div>&lt;!&ndash; /.widget-main &ndash;&gt;-->
+											<!--</div>&lt;!&ndash; /.widget-body &ndash;&gt;-->
+										<!--</div>&lt;!&ndash; /.widget-box &ndash;&gt;-->
 									</div><!-- /.col -->
 
-									<div class="col-sm-6">
+									<div class="col-sm-12">
 										<div class="widget-box">
 											<div class="widget-header">
 												<h4 class="widget-title lighter smaller">
@@ -573,45 +523,26 @@
 													<div class="dialogs">
 														<div class="itemdiv dialogdiv">
 															<div class="user">
-																<img alt="Alexa's Avatar" src="assets/images/avatars/avatar1.png" />
+																<img alt="Bob's Avatar" src="assets/images/avatars/user.jpg" />
 															</div>
 
 															<div class="body">
 																<div class="time">
 																	<i class="ace-icon fa fa-clock-o"></i>
-																	<span class="grey">4 秒前</span>
+																	<span class="grey">1 分钟前</span>
 																</div>
 
 																<div class="name">
-																	<a href="javascript:;">Alexa</a>
-																	<span class="label label-success arrowed arrowed-in-right">测试人员</span>
+																	<a href="javascript:;">04153088</a>
+																	<span class="label label-danger arrowed arrowed-in-right">管理员</span>
 																</div>
-																<div class="text">已完成缺陷：xxx。</div>
+																<div class="text">已完成缺陷：软件维护。</div>
 
 																<div class="tools show">
 																	<a href="#" class="btn btn-minier btn-success">
 																		<i class="icon-only ace-icon fa fa-check"></i>
 																	</a>
 																</div>
-															</div>
-														</div>
-
-														<div class="itemdiv dialogdiv">
-															<div class="user">
-																<img alt="John's Avatar" src="assets/images/avatars/avatar.png" />
-															</div>
-
-															<div class="body">
-																<div class="time">
-																	<i class="ace-icon fa fa-clock-o"></i>
-																	<span class="grey">38 秒前</span>
-																</div>
-
-																<div class="name">
-																	<a href="javascript:;">John</a>
-																	<span class="label label-info arrowed arrowed-in-right">开发人员</span>
-																</div>
-																<div class="text">被分配缺陷：xxx。</div>
 															</div>
 														</div>
 
@@ -627,54 +558,10 @@
 																</div>
 
 																<div class="name">
-																	<a href="javascript:;">Bob</a>
+																	<a href="javascript:;">04153088</a>
 																	<span class="label label-danger arrowed arrowed-in-right">管理员</span>
 																</div>
-																<div class="text">被分配缺陷：xxx。</div>
-															</div>
-														</div>
-
-														<div class="itemdiv dialogdiv">
-															<div class="user">
-																<img alt="Jim's Avatar" src="assets/images/avatars/avatar4.png" />
-															</div>
-
-															<div class="body">
-																<div class="time">
-																	<i class="ace-icon fa fa-clock-o"></i>
-																	<span class="grey">3 分钟前</span>
-																</div>
-
-																<div class="name">
-																	<a href="javascript:;">Jim</a>
-																	<span class="label label-info arrowed arrowed-in-right">开发人员</span>
-																</div>
-																<div class="text">已完成缺陷：xxx。</div>
-
-																<div class="tools show">
-																	<a href="#" class="btn btn-minier btn-success">
-																		<i class="icon-only ace-icon fa fa-check"></i>
-																	</a>
-																</div>
-															</div>
-														</div>
-
-														<div class="itemdiv dialogdiv">
-															<div class="user">
-																<img alt="Alexa's Avatar" src="assets/images/avatars/avatar1.png" />
-															</div>
-
-															<div class="body">
-																<div class="time">
-																	<i class="ace-icon fa fa-clock-o"></i>
-																	<span class="grey">4 分钟前</span>
-																</div>
-
-																<div class="name">
-																	<a href="javascript:;">Alexa</a>
-																	<span class="label label-success arrowed arrowed-in-right">测试人员</span>
-																</div>
-																<div class="text">被分配缺陷：xxx。</div>
+																<div class="text">被分配缺陷：软件维护。</div>
 															</div>
 														</div>
 													</div>
@@ -974,15 +861,49 @@
 			var userId = localStorage.getItem('userId')
 			var get_url = 'http://yiranblade.cn/bugsystem/bug/user/' + userId
 			$.get(get_url, function (data) {
-			    if (data.code == 200 && data.data.length !== 0) {
-			        for (var i = 0; i < data.data; i++) {
+			    if (data.code == 200) {
+                    var bugTotal = data.data.length
+                    $('#bugTotal_1').text(bugTotal)
+                    $('#bugTotal_2').text(bugTotal)
+			        for (var i = 0; i < data.data.length; i++) {
 			            var bug = data.data[i]
                         var bugName = bug.bugName
 						var finishedStatus = bug.finishedStatus
-					    // 待做
+						var tempDiv =
+                    		'<li>' +
+                        		'<a href="#">' +
+									'<div class="clearfix">' +
+										'<span class="pull-left">' + bugName + '</span>' +
+                        				'<span class="pull-right">' + finishedStatus + '</span>' +
+                        			'</div>' +
+
+                        			'<div class="progress progress-mini">' +
+                        				'<div style="width:50%" class="progress-bar"></div>' +
+                        			'</div>' +
+								'</a>' +
+                            '</li>'
+						$('#bugList').appendChild(tempDiv)
 					}
 				} else {
 			        console.log('该用户暂时没有负责的缺陷')
+				}
+			})
+
+		    // 渲染缺陷分配动态表
+			$.get('http://yiranblade.cn/bugsystem/bug/arrange/all', function (data) {
+			    if (data.code == 200) {
+			        console.log(data.data)
+					for (var i = 0; i < data.data.length; i++) {
+						var bugInfo = data.data[i]
+						var bugId = bugInfo.bugId
+						var bugUserid = bugInfo.bugUserid
+						var createTime = bugInfo.createTime
+						var userId = bugInfo.userId
+
+						// 根绝用户 userId 获取其身份
+					}
+				} else {
+			        alert('获取缺陷分配动态表失败')
 				}
 			})
 		</script>
