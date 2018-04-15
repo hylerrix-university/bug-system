@@ -16,7 +16,7 @@ function doLogin () {
         userName: userName,
         password, password
     }, function (result) {
-        if (result.data == "登录成功") {
+        if (result.code == 200) {
             localStorage.setItem('isLogin', 'true')
             localStorage.setItem('username', userName)
             localStorage.setItem('password', password)
