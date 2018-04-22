@@ -267,7 +267,7 @@
 						</div><!-- /.row -->
 
 						<!-- 新增缺陷，模态框（Modal） -->
-						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -281,28 +281,28 @@
 									<div class="modal-body">
 										<form class="form-horizontal" role="form">
 											<div class="form-group">
-												<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 缺陷名称 </label>
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 缺陷名称 </label>
 
 												<div class="col-sm-9">
-													<input type="text" id="form-field-1" placeholder="请输入..." class="col-xs-10 col-sm-5" />
+													<input type="text" id="form-field-1-1" placeholder="请输入..." class="col-xs-10 col-sm-5" />
 												</div>
 											</div>
 
 											<div class="form-group">
-												<label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 缺陷描述 </label>
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-1-2"> 缺陷描述 </label>
 
 												<div class="col-sm-9">
-													<input type="text" id="form-field-2" placeholder="请输入..." class="form-control" />
+													<input type="text" id="form-field-1-2" placeholder="请输入..." class="form-control" />
 												</div>
 											</div>
 
 											<div class="space-4"></div>
 
 											<div class="form-group">
-												<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 优先级 </label>
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-1-2"> 优先级 </label>
 
 												<div class="col-sm-9">
-													<select class="chosen-select form-control" id="form-field-3" data-placeholder="Choose a State...">
+													<select class="chosen-select form-control" id="form-field-1-3" data-placeholder="Choose a State...">
 														<option value="">请选择</option>
 														<option value="2001">一般</option>
 														<option value="2002">紧急</option>
@@ -318,6 +318,90 @@
 										<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 										</button>
 										<button type="button" class="btn btn-primary" onclick="addBug()">
+											提交更改
+										</button>
+									</div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal -->
+						</div>
+
+						<!-- 更新缺陷，模态框（Modal） -->
+						<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+											&times;
+										</button>
+										<h4 class="modal-title" id="updateModalLabel">
+											更新缺陷
+										</h4>
+									</div>
+									<div class="modal-body">
+										<form class="form-horizontal" role="form">
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-2-1"> 缺陷名称 </label>
+
+												<div class="col-sm-9">
+													<input type="text" id="form-field-2-1" placeholder="请输入..." class="col-xs-10 col-sm-5" />
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-2-2"> 缺陷描述 </label>
+
+												<div class="col-sm-9">
+													<input type="text" id="form-field-2-2" placeholder="请输入..." class="form-control" />
+												</div>
+											</div>
+
+											<div class="space-4"></div>
+
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-2-3"> 优先级 </label>
+
+												<div class="col-sm-9">
+													<select class="chosen-select form-control" id="form-field-2-3" data-placeholder="Choose a State...">
+														<option value="">请选择</option>
+														<option value="2001">一般</option>
+														<option value="2002">紧急</option>
+														<option value="2003">十分紧急</option>
+													</select>
+												</div>
+											</div>
+
+											<!--<div class="space-4"></div>-->
+
+											<!--<div class="form-group">-->
+												<!--<label class="col-sm-3 control-label no-padding-right" for="form-field-2-3"> 负责人 </label>-->
+
+												<!--<div class="col-sm-9">-->
+													<!--<select class="chosen-select form-control" id="form-field-2-4" data-placeholder="Choose a State...">-->
+														<!--<option value="">请选择</option>-->
+													<!--</select>-->
+												<!--</div>-->
+											<!--</div>-->
+
+											<div class="space-4"></div>
+
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-2-3"> 完成状态 </label>
+
+												<div class="col-sm-9">
+													<select class="chosen-select form-control" id="form-field-2-5" data-placeholder="Choose a State...">
+														<option value="">请选择</option>
+														<option value="3001">待处理</option>
+														<option value="3002">处理中</option>
+														<option value="3003">处理完成</option>
+													</select>
+												</div>
+											</div>
+										</form>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+										</button>
+										<button type="button" class="btn btn-primary" onclick="updateBug()">
 											提交更改
 										</button>
 									</div>
@@ -455,9 +539,9 @@
 			// 新增缺陷
 			function addBug () {
 			    var projectId = localStorage.getItem('projectId')
-				var bugName = $('#form-field-1').val()
-				var detail = $('#form-field-2').val()
-				var level = $('#form-field-3').val()
+				var bugName = $('#form-field-1-1').val()
+				var detail = $('#form-field-1-2').val()
+				var level = $('#form-field-1-3').val()
 				var finishedStatus = 3001
 
 				if (!bugName || !detail || !level) {
@@ -491,18 +575,6 @@
                 })
 			}
 
-			// 更新缺陷
-			function updataBug (bugId) {
-                alert('更新缺陷' + bugId)
-                bootbox.prompt("请选择负责人", function(result) {
-                    if (result === null) {
-
-                    } else {
-
-                    }
-                })
-			}
-
 			function renderBugProject (mergeThing) {
                 // 遍历每一个项目
 				for (var i = 0; i < mergeThing.length; i++) {
@@ -525,7 +597,7 @@
 									'<h3 class="widget-title grey lighter">' +
 										'<i class="ace-icon fa fa-leaf green"></i>' +
 										'' + project.name + '&nbsp;&nbsp;&nbsp;&nbsp;' +
-										'<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="saveProjectId(' + project.projectId + ')">' +
+										'<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addModal" onclick="saveProjectId(' + project.projectId + ')">' +
 											'新增缺陷' +
                         				'</button>' +
                                         '</h3>' +
@@ -566,8 +638,8 @@
 												'<div>' +
 													'<ul class="list-unstyled  spaced">' +
 														'<li><i class="ace-icon fa fa-caret-right green"></i>项目缺陷：<span id="bugTotal">' + bugTotal + '</span> 个</li>' +
-														'<li><i class="ace-icon fa fa-caret-right green"></i>已分配：<span id="bugDistribute">' + bugDistribute + '</span> 个</li>' +
-                    									'<li><i class="ace-icon fa fa-caret-right green"></i>已完成：<span id="bugDone">' + bugDone + '</span> 个</li>' +
+                                                        // '<li><i class="ace-icon fa fa-caret-right green"></i>已分配：<span id="bugDistribute">' + bugDistribute + '</span> 个</li>' +
+                    									// '<li><i class="ace-icon fa fa-caret-right green"></i>已完成：<span id="bugDone">' + bugDone + '</span> 个</li>' +
                    									 '</ul>' +
 												'</div>' +
 											'</div>' +
@@ -583,6 +655,7 @@
 														'<th>缺陷名称</th>' +
 														'<th class="hidden-xs">缺陷描述</th>' +
 														'<th class="hidden-480">优先级</th>' +
+														// '<th class="hidden-480">负责人</th>' +
 														'<th>完成状态</th>' +
 														'<th>创建时间</th>' +
 														'<th>操作</th>' +
@@ -609,9 +682,34 @@
                         var detail = bug[j].detail
                         var level = bug[j].level
                         // 负责人字段缺失
-                        // var  = bug[j].
+                        // var owner = bug[j].owner
+                        // owner = !owner ? '暂未上线' : owner
                         var finishedStatus = bug[j].finishedStatus
                         var createTime = bug[j].createTime
+
+						// 传递 bugInfo 到模态框，该 bugInfo 必须被 JSON.stringify 后才能拼接
+						var bugInfo = {
+                            bugId: bugId,
+                            bugName: bugName,
+                            detail: detail
+						}
+
+						// 将优先级和完成状态，从数字状态变成汉语提示
+						if (parseInt(level) === 2001) {
+                            level = '一般'
+						} else if (parseInt(level) === 2002) {
+                            level = '紧急'
+                        } else if (parseInt(level) === 2003) {
+                            level = '十分紧急'
+                        }
+
+                        if (parseInt(finishedStatus) === 3001) {
+                            finishedStatus = '待处理'
+                        } else if (parseInt(finishedStatus) === 3002) {
+                            finishedStatus = '处理中'
+                        } else if (parseInt(finishedStatus) === 3003) {
+                            finishedStatus = '处理完成'
+                        }
 
                         var tempBugDiv =
                             '<tr>' +
@@ -619,12 +717,13 @@
                             '<td>' + bugName + '</td>' +
                             '<td class="hidden-xs">' + detail + '</td>' +
                             '<td class="hidden-480">' + level + ' </td>' +
-                            '<td>...</td>' +
+                            // '<td>' + owner  + '</td>' +
                             '<td>' + finishedStatus + '</td>' +
                             '<td>' + createTime + '</td>' +
                             '<td>' +
 								'<div class="action-buttons">' +
-									'<a class="red" onclick="updateBug(' + bugId + ')">' +
+                                    // JSON.stringify(bugInfo).replace(/\"/g, "'") 这个 bug 解决了好久！原因是字符串拼接问题，传递对象必须改变 JSON 解析规则 https://blog.csdn.net/chyin1024/article/details/53495409
+									'<a class="red" data-toggle="modal" data-target="#updateModal" onclick="(function () { saveProjectId(' + project.projectId + '); renderBugInfo(' + JSON.stringify(bugInfo).replace(/\"/g, "'") + '); })()">' +
 										'<i class="ace-icon fa fa-pencil-square-o bigger-130"></i>' +
 									'</a>' +
 								'</div>' +
@@ -634,6 +733,75 @@
                     }
 				}
 			}
+
+			// 渲染所有负责人到 #updateModal 的负责人选项卡中
+			$.get('http://yiranblade.cn/bugsystem/user', function (data) {
+			    var users = data.data
+				for (var i = 0; i < users.length; i++) {
+			        var tempOption = '<option value="' + users[i].userId + '">' + users[i].name + '</option>'
+			        $('#form-field-2-4').append(tempOption)
+				}
+			})
+
+			// 每次点击不同的缺陷信息时，给表单中默认填充该信息未修改的值
+			function renderBugInfo (bugInfo) {
+				var bugId = bugInfo.bugId
+                var bugName = bugInfo.bugName
+                var detail = bugInfo.detail
+
+				localStorage.setItem('bugId', bugId)
+                $('#form-field-2-1').val(bugName)
+                $('#form-field-2-2').val(detail)
+
+				// 情况选项卡的已选值
+                $('#form-field-2-3').val('')
+                // $('#form-field-2-5').val('')
+                $('#form-field-2-5').val('')
+			}
+
+            // 更新缺陷信息
+            function updateBug () {
+                var projectId = localStorage.getItem('projectId')
+                var bugId = localStorage.getItem('bugId')
+
+                var bugName = $('#form-field-2-1').val()
+                var detail = $('#form-field-2-2').val()
+                var level = $('#form-field-2-3').val()
+                // var owner = $('#form-field-2-4').val()
+                var finishedStatus = $('#form-field-2-5').val()
+
+				if (!bugName || !detail || !level || !finishedStatus) {
+                    alert('请填写完整！')
+					return
+				}
+
+				var put_data = {
+                    bugId: bugId,
+                    bugName: bugName,
+                    detail: detail,
+                    projectId: projectId,
+                    level: level,
+					// owner: owner,
+                    finishedStatus: finishedStatus
+				}
+
+                put_data = JSON.stringify(put_data)
+
+                $.ajax({
+                    url: 'http://yiranblade.cn/bugsystem/bug',
+                    type: 'PUT',
+                    contentType: 'application/json; charset=utf-8',
+					data: put_data,
+                    async: false,
+                    success: function (data) {
+                        alert('更新成功，点击刷新页面！')
+						window.location.href = './bugs.html'
+                    },
+					error: function (data) {
+                        alert('更新失败，请联系管理员！')
+					}
+                })
+            }
 		</script>
 	</body>
 </html>
