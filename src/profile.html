@@ -370,10 +370,10 @@
 												</div>
 
 												<div class="profile-info-row">
-													<div class="profile-info-name"> 最后上线时间 </div>
+													<div class="profile-info-name"> 创建时间 </div>
 
 													<div class="profile-info-value">
-														<span class="editable" id="createTime">加载中...1</span>
+														<span class="editable" id="createTime">加载中...</span>
 													</div>
 												</div>
 											</div>
@@ -486,13 +486,13 @@
                 }
             })
 
-			var userId = localStorage.getItem('userId')
 			var name = localStorage.getItem('name')
             var role = localStorage.getItem('role')
 			var department = localStorage.getItem('department')
 			var email = localStorage.getItem('email')
 			var createTime = localStorage.getItem('createTime')
 
+			$('#username').text(username)
 			$('#name').text(name)
             $('#nameLeft').text(name)
             $('#role').text(role)

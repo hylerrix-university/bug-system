@@ -409,13 +409,13 @@
 						    // 根据项目 id 获取该项目缺陷、文档的个数
 
 							var tempDiv = '' +
-								'<tr>' +
+								'<tr id="project_' + projectArr[i].projectId + '">' +
 									'<td>' + projectArr[i].name + '</td>' +
 									'<td>' + projectArr[i].createTime + '</td>' +
 									'<td>' + projectArr[i].createUser + '</td>' +
 									'<td>' + projectArr[i].type + '</td>' +
-									'<td>' + projectArr[i].bugNum + '</td>' +
-									'<td>' + projectArr[i].docNum + '</td>' +
+									'<td id="bugNum_' + projectArr[i].projectId + '">' + projectArr[i].bugNum + '</td>' +
+									'<td id="docNum_' + projectArr[i].projectId + '">' + projectArr[i].docNum + '</td>' +
 									'<td>' + projectArr[i].descr + '</td>' +
 									'<td>' +
 										'<div class="action-buttons">' +
@@ -426,9 +426,24 @@
 									'</td>' +
 								'</tr>'
 							$("#dynamic-tbody").append(tempDiv)
+                            // 渲染每个项目的缺陷、文档个数
+                            renderDocumentCount(projectArr[i].projectId)
+                            renderBugCount(projectArr[i].projectId)
 						}
 					}
 				})
+			}
+
+			function renderDocumentCount (projectId) {
+				$.get('http://yiranblade.cn/bugsystem/document/' + projectId, function (data) {
+				    $('#bugNum_' + projectId).text(data.data.length)
+				})
+			}
+
+			function renderBugCount (projectId) {
+                $.get('http://yiranblade.cn/bugsystem/bug/project/' + projectId, function (data) {
+                    $('#docNum_' + projectId).text(data.data.length)
+                })
 			}
 
 			function deleteProject (projectId) {
@@ -457,18 +472,19 @@
 					alert('数据不能为空！')
 					return
 				}
+				var post_data = {
+					name: addName,
+					createUser: addCreateUser,
+					type: addType,
+					descr: addDescr
+				}
+				console.log(post_data)
+				post_data = JSON.stringify(post_data)
                 $.ajax({
                     url: 'http://yiranblade.cn/bugsystem/project',
                     type: 'POST',
-                    headers : {
-                        'Content-Type' : 'application/json'
-                    },
-					data: {
-                        name: addName,
-                        createUser: addCreateUser,
-                        type: addType,
-                        desc: addDescr
-                    },
+                    contentType: 'application/json; charset=utf-8',
+					data: post_data,
                     async: false,
                     success: function (data) {
                         alert('新增项目成功！')
