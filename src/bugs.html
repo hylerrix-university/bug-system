@@ -312,19 +312,6 @@
 											</div>
 
 											<div class="space-4"></div>
-
-											<div class="form-group">
-												<label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 负责人 </label>
-
-												<div class="col-sm-9">
-													<select class="chosen-select form-control" id="form-field-4" data-placeholder="Choose a State...">
-														<option value="">请选择</option>
-														<!-- ajax -->
-													</select>
-												</div>
-											</div>
-
-											<div class="space-4"></div>
 										</form>
 									</div>
 									<div class="modal-footer">
@@ -456,7 +443,7 @@
 						})
 					}
 					console.log(mergeThing)
-					renderBugProject(mergeThing)
+                    renderBugProject(mergeThing)
 				}
 			})
 
@@ -471,24 +458,37 @@
 				var bugName = $('#form-field-1').val()
 				var detail = $('#form-field-2').val()
 				var level = $('#form-field-3').val()
-				var owner = $('#form-field-4').val()
 				var finishedStatus = 3001
 
-				$.post('http://yiranblade.cn/bugsystem/bug', {
+				if (!bugName || !detail || !level) {
+			        alert('请填写所有选项！')
+			        return
+				}
+
+				var post_data = {
                     bugName: bugName,
                     detail: detail,
                     projectId: projectId,
                     level: level,
-                    finishedStatus: finishedStatus,
-                    owner: owner
-				}, function (data) {
-					if (data.code == 200) {
-						alert('新增缺陷成功，即将刷新页面！')
+                    finishedStatus: finishedStatus
+                }
+
+                post_data = JSON.stringify(post_data)
+
+                $.ajax({
+                    url: 'http://yiranblade.cn/bugsystem/bug',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: post_data,
+                    async: true,
+                    success: function (data) {
+                        alert('新增缺陷成功，即将刷新页面！')
                         window.location.href = './bugs.html'
-					} else {
-					    alert('新增缺陷失败！')
-					}
-				})
+                    },
+                    error: function (data) {
+                        alert('新增缺陷失败！')
+                    }
+                })
 			}
 
 			// 更新缺陷
@@ -508,10 +508,8 @@
 				for (var i = 0; i < mergeThing.length; i++) {
 					// 项目信息
 					var project = mergeThing[i].project
-					console.log(project)
 					// 缺陷信息
 					var bug = mergeThing[i].bug
-					console.log(bug)
 
 					// 该项目总共的 bug 个数
 					var bugTotal = bug.length
@@ -585,14 +583,13 @@
 														'<th>缺陷名称</th>' +
 														'<th class="hidden-xs">缺陷描述</th>' +
 														'<th class="hidden-480">优先级</th>' +
-														'<th class="hidden-480">负责人</th>' +
 														'<th>完成状态</th>' +
 														'<th>创建时间</th>' +
 														'<th>操作</th>' +
 													'</tr>' +
 												'</thead>' +
 
-												'<tbody id="bugTbody">' +
+												'<tbody id="bugTBody_' + project.projectId + '">' +
 												    // ajax
 												'</tbody>' +
 											'</table>' +
@@ -606,13 +603,13 @@
                     $("#bug-projects").append(tempDiv)
 
                     // 渲染该项目所有缺陷
-                    for (var j = 0; j < bug.length; i++) {
+                    for (var j = 0; j < bug.length; j++) {
                         var bugId = bug[j].bugId
                         var bugName = bug[j].bugName
                         var detail = bug[j].detail
                         var level = bug[j].level
                         // 负责人字段缺失
-                        // var  = bug[i].
+                        // var  = bug[j].
                         var finishedStatus = bug[j].finishedStatus
                         var createTime = bug[j].createTime
 
@@ -633,7 +630,7 @@
 								'</div>' +
 							'</td>' +
                             '</tr>'
-                        $("#bugTbody").append(tempBugDiv)
+                        $("#bugTBody_" + project.projectId).append(tempBugDiv)
                     }
 				}
 			}
