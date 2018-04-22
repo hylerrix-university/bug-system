@@ -261,16 +261,31 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
+								<style>
+									.addUser {
+										border: 1px solid;
+										padding: 6px 4px;
+										box-sizing: border-box;
+										height: 35px;
+										width: 158px;
+									}
+								</style>
+
 								<div class="row" style="text-align: center">
 									<div class="col-xs-12">
 										<div class="row">
-											<label for="username">用户账号</label><input type="text" id="addUserName" placeholder="8 位数字">
-											<label for="password">用户密码</label><input type="password" id="addPassword" placeholder="至少 6 位">
-											<label for="name">个人昵称</label><input type="text" id="addName" placeholder="请填写">
+											<label for="username">用户账号</label><input class="addUser" type="text" id="addUserName" placeholder="必须 8 位数字学号">
+											<label for="password">用户密码</label><input class="addUser" type="password" id="addPassword" placeholder="至少 6 位">
+											<label for="name">个人昵称</label><input class="addUser" type="text" id="addName" placeholder="请填写">
 											<br>
-											<label for="role">角色身份</label><input type="text" id="addRole" placeholder="请填写">
-											<label for="department">部门名称</label><input type="text" id="addDepart" placeholder="请填写">
-											<label for="email">个人邮箱</label><input type="text" id="addEmail" placeholder="请填写">
+											<label for="role">角色身份</label>
+											<select class="addUser" name="addRole" id="addRole">
+												<option value="1001">管理员</option>
+												<option value="1002">开发人员</option>
+												<option value="1003">测试人员</option>
+											</select>
+											<label for="department">部门名称</label><input class="addUser" type="text" id="addDepart" placeholder="请填写">
+											<label for="email">个人邮箱</label><input class="addUser" type="text" id="addEmail" placeholder="请填写">
 											<br><br>
 											<button id="addButton">新增用户</button>
 										</div>
@@ -403,8 +418,10 @@
 					type: 'DELETE',
 					data: {},
                     success: function (data) {
-                        alert('删除成功！')
-                        window.location.href = './users.html'
+					    if (data.code === 200) {
+                            alert('删除成功！')
+                            window.location.href = './users.html'
+						}
                     },
                     error: function (data) {
 					    console.log(data)
@@ -422,29 +439,43 @@
 				var addRole = $("#addRole").val()
 				var addDepart = $("#addDepart").val()
 				var addEmail = $("#addEmail").val()
+				var emailTest = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
 				if (!addUserName || !addPassword || !addName || !addRole || !addDepart || !addEmail) {
 					alert('数据不能为空！')
 					return
 				} else if (addUserName.length !== 8) {
 					alert('账号必须为 8 位数字学号！')
                     return
+				} else if (addPassword.length < 6) {
+				    alert('密码最少为 6 位！')
+					return
+				} else if (!emailTest.test(addEmail)) {
+                    alert('邮箱格式不对！')
+                    return
 				}
 				var post_data = {
                     userName: addUserName,
                     userPassword: addPassword,
-                    name: addName,
                     role: addRole,
+                    name: addName,
                     department: addDepart,
                     email: addEmail
                 }
-				$.post('http://yiranblade.cn/bugsystem/user', post_data, function (data) {
-					if (data.code == '200') {
-						alert('新增用户成功！')
-						renderUsers()
-					} else {
-						alert('新增用户失败！')
-					}
-				})
+                post_data = JSON.stringify(post_data)
+                $.ajax({
+                    url: 'http://yiranblade.cn/bugsystem/user',
+                    type: 'POST',
+                    data: post_data,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        alert('新增用户成功！')
+                        window.location.href = './users.html'
+                    },
+                    error: function (err) {
+                        console.log(err)
+                        alert('新增用户失败，请联系管理员！')
+                    }
+                })
 			})
 
 			function renderUsers () {
@@ -455,13 +486,23 @@
 					var users = data.data
 					console.log(users)
 					for (var i = 0; i < users.length; i++) {
+					    var userRole = ''
+					    if (parseInt(users[i].role) === 1001) {
+                            userRole = '管理员'
+						} else if (parseInt(users[i].role) === 1002) {
+                            userRole = '开发人员'
+                        } else if (parseInt(users[i].role) === 1003) {
+							userRole = '测试人员'
+                        } else {
+                            userRole = '未识别的身份'
+						}
 						var tempDiv = '' + 
 							'<tr>' + 
 								'<td>' + users[i].userName + '</td>' + 
 								'<td>' + '******' + '</td>' + 
 								'<td>' + users[i].name + '</td>' + 
 								// 角色
-								'<td>' + '等待接口' + '</td>' + 
+								'<td>' + userRole + '</td>' +
 								'<td>' + users[i].department + '</td>' + 
 								'<td>' + users[i].email + '</td>' +
 								'<td>' +
@@ -472,7 +513,7 @@
 									'</div>' +
 								'</td>' +
 							'</tr>'
-							$("#dynamic-tbody").append(tempDiv)
+						$("#dynamic-tbody").append(tempDiv)
 					}
 				})
 			}
