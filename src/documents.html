@@ -248,72 +248,8 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
-								<div class="row">
-									<div class="col-md-4 col-sm-6 col-xs-12">
-										<div class="widget-box">
-											<div class="widget-header widget-header-flat">
-												<h4 class="widget-title smaller">项目</h4>
-
-												<div class="widget-toolbar">
-													<label>
-														<small class="green">
-															<b>点击上传</b>
-														</small>
-
-														<input data-id="1" onclick="showUpload(this)" type="checkbox" class="ace ace-switch ace-switch-6" />
-														<span class="lbl middle"></span>
-													</label>
-												</div>
-											</div>
-
-											<div class="widget-body">
-												<div class="widget-main">
-													<div id="show-documents-1">
-														<table id="table-project-1" class="table table-bordered table-hover">
-															<thead>
-															<tr>
-																<th width="60%">文件名</th>
-																<th>操作</th>
-															</tr>
-															</thead>
-															<tbody>
-															<tr>
-																<td><a href="#">aaaaaa</a></td>
-																<td><a class="red" onclick=""><i class="ace-icon fa fa-trash-o bigger-130"></i></a></td>
-															</tr>
-															<tr>
-																<td><a href="#">aaaaaa</a></td>
-																<td><a class="red" onclick=""><i class="ace-icon fa fa-trash-o bigger-130"></i></a></td>
-															</tr>
-															</tbody>
-														</table>
-													</div>
-
-													<div id="upload-documents-1" style="display: none;">
-														<div class="form-group">
-															<div class="col-xs-12">
-																<label class="ace-file-input"><input type="file" id="id-input-file-2"><span class="ace-file-container" data-title="Choose"><span class="ace-file-name" data-title="No File ..."><i class=" ace-icon fa fa-upload"></i></span></span><a class="remove" href="#"><i class=" ace-icon fa fa-times"></i></a></label>
-															</div>
-														</div>
-
-														<div class="form-group">
-															<div class="col-xs-12">
-																<label class="ace-file-input ace-file-multiple"><input multiple="" type="file" id="id-input-file-3"><span class="ace-file-container" data-title="Drop files here or click to choose"><span class="ace-file-name" data-title="No File ..."><i class=" ace-icon ace-icon fa fa-cloud-upload"></i></span></span><a class="remove" href="#"><i class=" ace-icon fa fa-times"></i></a></label>
-															</div>
-														</div>
-
-														<div class="center">
-																<button type="button" class="btn btn-sm btn-success">
-																	上传文件
-																	<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
-																</button>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-
+								<div class="row" id="project-line">
+									<!-- ajax here-->
 								</div>
 
 							</div><!-- PAGE CONTENT ENDS -->
@@ -402,11 +338,158 @@
                 }
             })
 
+			// 获取所有项目
+            $.get('http://yiranblade.cn/bugsystem/project', function (data) {
+                if (data.code === 200) {
+                    var projectArr = data.data
+					for (var i = 0; i < projectArr.length; i++) {
+                        var tempDiv = `
+							<div class="col-md-4 col-sm-6 col-xs-12">
+								<div class="widget-box">
+									<div class="widget-header widget-header-flat">
+										<h4 class="widget-title smaller">` + projectArr[i].name + `</h4>
+
+										<div class="widget-toolbar">
+											<label>
+												<small class="green">
+													<b>点击上传</b>
+												</small>
+
+												<input data-id="` + projectArr[i].projectId + `" onclick="showUpload(this)" type="checkbox" class="ace ace-switch ace-switch-6" />
+												<span class="lbl middle"></span>
+											</label>
+										</div>
+									</div>
+
+									<div class="widget-body">
+										<div class="widget-main">
+											<div id="show-documents-1">
+												<table id="table-project-` + projectArr[i].projectId + `" class="table table-bordered table-hover">
+													<thead>
+														<tr>
+															<th width="80%">文件名</th>
+															<th>操作</th>
+														</tr>
+													</thead>
+													<tbody id="tbody-` + projectArr[i].projectId + `">
+														<!-- ajax here -->
+													</tbody>
+												</table>
+											</div>
+
+											<div id="upload-documents-` + projectArr[i].projectId + `" style="display: none;">
+												<div class="form-group">
+													<div class="col-xs-12">
+														<input type="file" id="input-file-` + projectArr[i].projectId + `">
+													</div>
+												</div>
+
+												<div class="center">
+													<button type="button" class="btn btn-sm btn-success" onclick="uploadNow(` + projectArr[i].projectId + `)">
+														立刻上传
+														<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+                        `
+						$("#project-line").append(tempDiv)
+						// 给每个 input file 框声明实例化
+                        $('#input-file-' + projectArr[i].projectId).ace_file_input({
+                            style: 'well',
+                            btn_choose: '拖动文件至此或点击上传',
+                            btn_change: null,
+                            no_icon: 'ace-icon fa fa-cloud-upload',
+                            droppable: true,
+                            thumbnail: 'large',
+							preview_error : function(filename, error_code) {
+								//name of the file that failed
+								//error_code values
+								//1 = 'FILE_LOAD_FAILED',
+								//2 = 'IMAGE_LOAD_FAILED',
+								//3 = 'THUMBNAIL_FAILED'
+								//alert(error_code);
+							}
+						})
+						// 调用渲染该项目下文档信息的函数
+						renderDocumentPerProject(projectArr[i].projectId)
+					}
+				} else {
+                    alert('获取项目信息失败，没有项目或请联系管理员！')
+				}
+            })
+
+			// 给每个项目上渲染该项目的文档
+            function renderDocumentPerProject (projectId) {
+			    $.get('http://yiranblade.cn/bugsystem/document/' + projectId, function (data) {
+			        if (data.code === 200 ) {
+			            var documentsArr = data.data
+						if (documentsArr.length === 0) {
+                            $('#tbody-' + projectId).append(`<tr><td>暂无数据</td><td>-</td></tr>`)
+			                return
+						}
+						for (var i = 0; i < documentsArr.length; i++) {
+                            var tempDiv = `
+								<tr>
+									<td><a href="#">documentsArr[i].documentId</a></td>
+									<td><a class="red" onclick="alert('抱歉，为安全起见，暂时不能删除文档，请及时联系管理员！')"><i class="ace-icon fa fa-trash-o bigger-130"></i></a></td>
+								</tr>
+							`
+                            $('#tbody-' + projectId).append(tempDiv)
+						}
+					} else {
+			            alert('项目 ' + projectId + ' 的文档加载不成功，请及时联系管理员！')
+					}
+				})
+			}
+
 		    // 打开每个项目"点击上传"按钮时，展示上传界面
-            function showUpload(el) {
+            function showUpload (el) {
 			    var projectId = el.dataset.id
                 $('#table-project-' + projectId).toggle()
 				$('#upload-documents-' + projectId).toggle()
+			}
+
+			// 为该项目上传文档
+			function uploadNow (projectId) {
+                var tempFiles = $('#input-file-' + projectId).data('ace_input_files')
+				var reg = /(jpeg$|jpg$|png$|gif$|bmp$)/g
+				if (!tempFiles) {
+			        alert('您还没有选择文件！')
+					return
+				} else if (!reg.test(tempFiles[0].type)) {
+					alert('上传的文件请指定在 jpeg|jpg|png|gif|bmp 格式内！')
+					return
+                }
+				// } else if (tempFile[0].size > 1000) {
+				//    // alert('抱歉，您上传的文件大于 1000b！')
+				//    // return
+				// }
+                var tempFile = tempFiles[0]
+				// 开始上传文件
+                $.ajax({
+                    url: 'http://yiranblade.cn/bugsystem/upload',
+                    type: 'POST',
+                    data: new FormData(tempFile),
+                    cache: false,
+                    // 告诉 jQuery 不要去处理发送的数据，因为 data 值是 FormData 对象，不需要对数据做处理。
+                    processData : false,
+                    // 告诉 jQuery 不要去设置 Content-Type 请求头
+                    contentType : false,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        alert('新增文件成功，即将刷新页面！')
+                        window.location.href = './documents.html'
+                    },
+                    error: function (data) {
+                        console.log(data)
+                        alert('新增项目失败！')
+                    }
+                })
 			}
 		</script>
 	</body>
