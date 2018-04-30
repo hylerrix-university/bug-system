@@ -233,7 +233,6 @@
 
 			<div class="main-content">
 				<div class="main-content-inner">
-
 					<div class="page-content">
 						<div class="page-header">
 							<h1>
@@ -248,59 +247,79 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<div>
-									<form action="./dummy.html" class="dropzone well" id="dropzone">
-										<div class="fallback">
-											<input name="file" type="file" multiple="" />
-										</div>
-									</form>
-								</div>
 
-								<div id="preview-template" class="hide">
-									<div class="dz-preview dz-file-preview">
-										<div class="dz-image">
-											<img data-dz-thumbnail="" />
-										</div>
+								<div class="row">
+									<div class="col-md-4 col-sm-6 col-xs-12">
+										<div class="widget-box">
+											<div class="widget-header widget-header-flat">
+												<h4 class="widget-title smaller">项目</h4>
 
-										<div class="dz-details">
-											<div class="dz-size">
-												<span data-dz-size=""></span>
+												<div class="widget-toolbar">
+													<label>
+														<small class="green">
+															<b>点击上传</b>
+														</small>
+
+														<input data-id="1" onclick="showUpload(this)" type="checkbox" class="ace ace-switch ace-switch-6" />
+														<span class="lbl middle"></span>
+													</label>
+												</div>
 											</div>
 
-											<div class="dz-filename">
-												<span data-dz-name=""></span>
+											<div class="widget-body">
+												<div class="widget-main">
+													<div id="show-documents-1">
+														<table id="table-project-1" class="table table-bordered table-hover">
+															<thead>
+															<tr>
+																<th width="60%">文件名</th>
+																<th>操作</th>
+															</tr>
+															</thead>
+															<tbody>
+															<tr>
+																<td><a href="#">aaaaaa</a></td>
+																<td><a class="red" onclick=""><i class="ace-icon fa fa-trash-o bigger-130"></i></a></td>
+															</tr>
+															<tr>
+																<td><a href="#">aaaaaa</a></td>
+																<td><a class="red" onclick=""><i class="ace-icon fa fa-trash-o bigger-130"></i></a></td>
+															</tr>
+															</tbody>
+														</table>
+													</div>
+
+													<div id="upload-documents-1" style="display: none;">
+														<div class="form-group">
+															<div class="col-xs-12">
+																<label class="ace-file-input"><input type="file" id="id-input-file-2"><span class="ace-file-container" data-title="Choose"><span class="ace-file-name" data-title="No File ..."><i class=" ace-icon fa fa-upload"></i></span></span><a class="remove" href="#"><i class=" ace-icon fa fa-times"></i></a></label>
+															</div>
+														</div>
+
+														<div class="form-group">
+															<div class="col-xs-12">
+																<label class="ace-file-input ace-file-multiple"><input multiple="" type="file" id="id-input-file-3"><span class="ace-file-container" data-title="Drop files here or click to choose"><span class="ace-file-name" data-title="No File ..."><i class=" ace-icon ace-icon fa fa-cloud-upload"></i></span></span><a class="remove" href="#"><i class=" ace-icon fa fa-times"></i></a></label>
+															</div>
+														</div>
+
+														<div class="center">
+																<button type="button" class="btn btn-sm btn-success">
+																	上传文件
+																	<i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+																</button>
+														</div>
+													</div>
+												</div>
 											</div>
-										</div>
-
-										<div class="dz-progress">
-											<span class="dz-upload" data-dz-uploadprogress=""></span>
-										</div>
-
-										<div class="dz-error-message">
-											<span data-dz-errormessage=""></span>
-										</div>
-
-										<div class="dz-success-mark">
-											<span class="fa-stack fa-lg bigger-150">
-												<i class="fa fa-circle fa-stack-2x white"></i>
-
-												<i class="fa fa-check fa-stack-1x fa-inverse green"></i>
-											</span>
-										</div>
-
-										<div class="dz-error-mark">
-											<span class="fa-stack fa-lg bigger-150">
-												<i class="fa fa-circle fa-stack-2x white"></i>
-
-												<i class="fa fa-remove fa-stack-1x fa-inverse red"></i>
-											</span>
 										</div>
 									</div>
-								</div><!-- PAGE CONTENT ENDS -->
-							</div><!-- /.col -->
-						</div><!-- /.row -->
-					</div><!-- /.page-content -->
-				</div>
+
+								</div>
+
+							</div><!-- PAGE CONTENT ENDS -->
+						</div><!-- /.col -->
+					</div><!-- /.row -->
+				</div><!-- /.page-content -->
 			</div><!-- /.main-content -->
 
 			<div class="footer">
@@ -341,101 +360,12 @@
 		</script>
 		<script src="assets/js/bootstrap.min.js"></script>
 
-		<!-- page specific plugin scripts -->
-		<script src="assets/js/dropzone.min.js"></script>
-
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
 		<script src="assets/js/ace.min.js"></script>
 
 		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
-			jQuery(function($){
-			
-			try {
-			  Dropzone.autoDiscover = false;
-			
-			  var myDropzone = new Dropzone('#dropzone', {
-			    previewTemplate: $('#preview-template').html(),
-			    
-				thumbnailHeight: 120,
-			    thumbnailWidth: 120,
-			    maxFilesize: 0.5,
-				
-				//addRemoveLinks : true,
-				//dictRemoveFile: 'Remove',
-				
-				dictDefaultMessage :
-				'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> 拖拽文件</span> 上传 \
-				<span class="smaller-80 grey">(或点击空白区域上传)</span> <br /><br /> \
-				<i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
-			,
-				
-			    thumbnail: function(file, dataUrl) {
-			      if (file.previewElement) {
-			        $(file.previewElement).removeClass("dz-file-preview");
-			        var images = $(file.previewElement).find("[data-dz-thumbnail]").each(function() {
-						var thumbnailElement = this;
-						thumbnailElement.alt = file.name;
-						thumbnailElement.src = dataUrl;
-					});
-			        setTimeout(function() { $(file.previewElement).addClass("dz-image-preview"); }, 1);
-			      }
-			    }
-			
-			  });
-			
-			
-			  //simulating upload progress
-			  var minSteps = 6,
-			      maxSteps = 60,
-			      timeBetweenSteps = 100,
-			      bytesPerStep = 100000;
-			
-			  myDropzone.uploadFiles = function(files) {
-			    var self = this;
-			
-			    for (var i = 0; i < files.length; i++) {
-			      var file = files[i];
-			          totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
-			
-			      for (var step = 0; step < totalSteps; step++) {
-			        var duration = timeBetweenSteps * (step + 1);
-			        setTimeout(function(file, totalSteps, step) {
-			          return function() {
-			            file.upload = {
-			              progress: 100 * (step + 1) / totalSteps,
-			              total: file.size,
-			              bytesSent: (step + 1) * file.size / totalSteps
-			            };
-			
-			            self.emit('uploadprogress', file, file.upload.progress, file.upload.bytesSent);
-			            if (file.upload.progress == 100) {
-			              file.status = Dropzone.SUCCESS;
-			              self.emit("success", file, 'success', null);
-			              self.emit("complete", file);
-			              self.processQueue();
-			            }
-			          };
-			        }(file, totalSteps, step), duration);
-			      }
-			    }
-			   }
-			
-			   
-			   //remove dropzone instance when leaving this page in ajax mode
-			   $(document).one('ajaxloadstart.page', function(e) {
-					try {
-						myDropzone.destroy();
-					} catch(e) {}
-			   });
-			
-			} catch(e) {
-			  alert('Dropzone.js does not support older browsers!');
-			}
-			
-			});
-		</script>
+
 		<script>
 			var username = localStorage.getItem('username')
 			$("#user-info").append(username)
@@ -471,6 +401,13 @@
                     console.log('该用户暂时没有负责的缺陷')
                 }
             })
+
+		    // 打开每个项目"点击上传"按钮时，展示上传界面
+            function showUpload(el) {
+			    var projectId = el.dataset.id
+                $('#table-project-' + projectId).toggle()
+				$('#upload-documents-' + projectId).toggle()
+			}
 		</script>
 	</body>
 </html>
