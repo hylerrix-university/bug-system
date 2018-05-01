@@ -407,6 +407,7 @@
 						console.log(projectArr)
 						for (var i = 0; i < projectArr.length; i++) {
 						    // 根据项目 id 获取该项目缺陷、文档的个数
+							console.log(projectArr[i])
 
 							var tempDiv = '' +
 								'<tr id="project_' + projectArr[i].projectId + '">' +
@@ -414,8 +415,8 @@
 									'<td>' + projectArr[i].createTime + '</td>' +
 									'<td>' + projectArr[i].createUser + '</td>' +
 									'<td>' + projectArr[i].type + '</td>' +
-									'<td id="bugNum_' + projectArr[i].projectId + '">' + projectArr[i].bugNum + '</td>' +
-									'<td id="docNum_' + projectArr[i].projectId + '">' + projectArr[i].docNum + '</td>' +
+									'<td id="bugNum_' + projectArr[i].projectId + '">...</td>' +
+									'<td id="docNum_' + projectArr[i].projectId + '">...</td>' +
 									'<td>' + projectArr[i].descr + '</td>' +
 									'<td>' +
 										'<div class="action-buttons">' +
@@ -436,13 +437,13 @@
 
 			function renderDocumentCount (projectId) {
 				$.get('http://yiranblade.cn/bugsystem/document/' + projectId, function (data) {
-				    $('#bugNum_' + projectId).text(data.data.length)
+				    $('#docNum_' + projectId).text(data.data.length)
 				})
 			}
 
 			function renderBugCount (projectId) {
                 $.get('http://yiranblade.cn/bugsystem/bug/project/' + projectId, function (data) {
-                    $('#docNum_' + projectId).text(data.data.length)
+                    $('#bugNum_' + projectId).text(data.data.length)
                 })
 			}
 
