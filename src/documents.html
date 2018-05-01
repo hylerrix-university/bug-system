@@ -352,7 +352,7 @@
 										<div class="widget-toolbar">
 											<label>
 												<small class="green">
-													<b>点击上传</b>
+													<b>切换上传</b>
 												</small>
 
 												<input data-id="` + projectArr[i].projectId + `" onclick="showUpload(this)" type="checkbox" class="ace ace-switch ace-switch-6" />
@@ -400,7 +400,7 @@
 						// 给每个 input file 框声明实例化
                         $('#input-file-' + projectArr[i].projectId).ace_file_input({
                             style: 'well',
-                            btn_choose: '拖动文件至此或点击上传',
+                            btn_choose: '拖动文件/点击上传',
                             btn_change: null,
                             no_icon: 'ace-icon fa fa-cloud-upload',
                             droppable: true,
@@ -469,16 +469,21 @@
 				//    // return
 				// }
                 var tempFile = tempFiles[0]
+				var post_data = {
+                    projectId: projectId,
+                    files: tempFiles
+				}
+                post_data = JSON.stringify(post_data)
 				// 开始上传文件
                 $.ajax({
                     url: 'http://yiranblade.cn/bugsystem/upload',
                     type: 'POST',
-                    data: new FormData(tempFile),
+                    data: post_data,
                     cache: false,
                     // 告诉 jQuery 不要去处理发送的数据，因为 data 值是 FormData 对象，不需要对数据做处理。
                     processData : false,
                     // 告诉 jQuery 不要去设置 Content-Type 请求头
-                    contentType : false,
+                    contentType : 'multipart/form-data',
                     dataType: "json",
                     async: false,
                     success: function (data) {
@@ -487,7 +492,7 @@
                     },
                     error: function (data) {
                         console.log(data)
-                        alert('新增项目失败！')
+                        alert('文件上传功能后端已实现，前端逻辑暂未开启，请联系管理员手动上传！')
                     }
                 })
 			}
