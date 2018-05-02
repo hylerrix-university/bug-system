@@ -431,10 +431,11 @@
                             $('#tbody-' + projectId).append(`<tr><td>暂无数据</td><td>-</td></tr>`)
 			                return
 						}
+						console.log(documentsArr)
 						for (var i = 0; i < documentsArr.length; i++) {
                             var tempDiv = `
 								<tr>
-									<td><a href="#">documentsArr[i].documentId</a></td>
+									<td><a href="#">` + documentsArr[i].documId + `</a></td>
 									<td><a class="red" onclick="alert('抱歉，为安全起见，暂时不能删除文档，请及时联系管理员！')"><i class="ace-icon fa fa-trash-o bigger-130"></i></a></td>
 								</tr>
 							`
@@ -468,22 +469,23 @@
 				//    // alert('抱歉，您上传的文件大于 1000b！')
 				//    // return
 				// }
-                var tempFile = tempFiles[0]
-				var post_data = {
-                    projectId: projectId,
-                    files: tempFiles
+				var formData = new FormData()
+				for (var i = 0; i < tempFiles.length; i++) {
+                    formData.append('files', tempFiles[i])
 				}
-                post_data = JSON.stringify(post_data)
+				formData.append('projectId', projectId)
+				console.log(formData)
+
 				// 开始上传文件
                 $.ajax({
                     url: 'http://yiranblade.cn/bugsystem/upload',
                     type: 'POST',
-                    data: post_data,
+                    data: formData,
                     cache: false,
                     // 告诉 jQuery 不要去处理发送的数据，因为 data 值是 FormData 对象，不需要对数据做处理。
                     processData : false,
-                    // 告诉 jQuery 不要去设置 Content-Type 请求头
-                    contentType : 'multipart/form-data',
+                    // 告诉 jQuery 不要去设置 Content-Type 请求头，不然会默认传的是字符串
+                    contentType : false,
                     dataType: "json",
                     async: false,
                     success: function (data) {
