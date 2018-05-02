@@ -433,9 +433,11 @@
 						}
 						console.log(documentsArr)
 						for (var i = 0; i < documentsArr.length; i++) {
+			                var nameArr = documentsArr[i].documUrl.split(`/`)
+							var name = nameArr[nameArr.length - 1]
                             var tempDiv = `
 								<tr>
-									<td><a href="#">` + documentsArr[i].documId + `</a></td>
+									<td><a href="#" data-url="` + documentsArr[i].documUrl + `" data-id="` + documentsArr[i].documId + `" onclick="downloadNow(this)">` + name + `</a></td>
 									<td><a class="red" onclick="alert('抱歉，为安全起见，暂时不能删除文档，请及时联系管理员！')"><i class="ace-icon fa fa-trash-o bigger-130"></i></a></td>
 								</tr>
 							`
@@ -498,6 +500,37 @@
                     }
                 })
 			}
+
+			function downloadNow (el) {
+                var documId = el.dataset.id
+                var documUrl = el.dataset.url
+				console.log(documUrl)
+				var nameArr = documUrl.split('/')
+				var name = nameArr[nameArr.length - 1]
+				var post_data = {
+                    fileName: name,
+                    filePath: documUrl
+				}
+                post_data = JSON.stringify(post_data)
+                $.ajax({
+                    url: 'http://yiranblade.cn/bugsystem/download',
+                    type: 'POST',
+                    data: post_data,
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        alert('正在下载，请稍后！')
+                    },
+                    error: function (data) {
+                        console.log(data)
+                        alert('下载失败，请联系管理员！')
+                    }
+                })
+			}
+			
+			function deleteNow () {
+				
+            }
 		</script>
 	</body>
 </html>
