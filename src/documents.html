@@ -503,29 +503,30 @@
 
 			function downloadNow (el) {
                 var documId = el.dataset.id
-                var documUrl = el.dataset.url
-				console.log(documUrl)
-				var nameArr = documUrl.split('/')
-				var name = nameArr[nameArr.length - 1]
-				var post_data = {
-                    fileName: name,
-                    filePath: documUrl
-				}
-                post_data = JSON.stringify(post_data)
-                $.ajax({
-                    url: 'http://yiranblade.cn/bugsystem/download',
-                    type: 'POST',
-                    data: post_data,
-                    dataType: "json",
-                    async: false,
-                    success: function (data) {
-                        alert('正在下载，请稍后！')
-                    },
-                    error: function (data) {
-                        console.log(data)
-                        alert('下载失败，请联系管理员！')
-                    }
-                })
+                window.location.href='http://yiranblade.cn/bugsystem/download/'+documId
+    //             var documUrl = el.dataset.url
+				// console.log(documUrl)
+				// var nameArr = documUrl.split('/')
+				// var name = nameArr[nameArr.length - 1]
+				// var post_data = {
+    //                 fileName: name,
+    //                 filePath: documUrl
+				// }
+    //             post_data = JSON.stringify(post_data)
+    //             $.ajax({
+    //                 url: 'http://yiranblade.cn/bugsystem/download',
+    //                 type: 'POST',
+    //                 data: post_data,
+    //                 dataType: "json",
+    //                 async: false,
+    //                 success: function (data) {
+    //                     alert('正在下载，请稍后！')
+    //                 },
+    //                 error: function (data) {
+    //                     console.log(data)
+    //                     alert('下载失败，请联系管理员！')
+    //                 }
+    //             })
 			}
 			
 			function deleteNow () {
