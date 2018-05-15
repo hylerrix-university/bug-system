@@ -370,17 +370,17 @@
 												</div>
 											</div>
 
-											<!--<div class="space-4"></div>-->
+											<div class="space-4"></div>
 
-											<!--<div class="form-group">-->
-												<!--<label class="col-sm-3 control-label no-padding-right" for="form-field-2-3"> 负责人 </label>-->
+											<div class="form-group">
+												<label class="col-sm-3 control-label no-padding-right" for="form-field-2-3"> 负责人 </label>
 
-												<!--<div class="col-sm-9">-->
-													<!--<select class="chosen-select form-control" id="form-field-2-4" data-placeholder="Choose a State...">-->
-														<!--<option value="">请选择</option>-->
-													<!--</select>-->
-												<!--</div>-->
-											<!--</div>-->
+												<div class="col-sm-9">
+													<select class="chosen-select form-control" id="form-field-2-4" data-placeholder="Choose a State...">
+														<option value="">请选择</option>
+													</select>
+												</div>
+											</div>
 
 											<div class="space-4"></div>
 
@@ -526,8 +526,24 @@
 							}
 						})
 					}
-					console.log(mergeThing)
                     renderBugProject(mergeThing)
+				}
+			})
+
+			// 获取缺陷分配情况
+			$.get('http://yiranblade.cn/bugsystem/bug/arrange/all', function (data) {
+				if (data.code === 200) {
+					localStorage.setItem('allArrange', JSON.stringify(data.data))
+				}
+			})
+
+			// 渲染所有负责人到 #updateModal 的负责人选项卡中，并保存在 localStorage
+			$.get('http://yiranblade.cn/bugsystem/user', function (data) {
+			    var users = data.data
+				localStorage.setItem('allUser', JSON.stringify(users))
+				for (var i = 0; i < users.length; i++) {
+			        var tempOption = '<option value="' + users[i].userId + '">' + users[i].name + '</option>'
+			        $('#form-field-2-4').append(tempOption)
 				}
 			})
 
@@ -576,6 +592,11 @@
 			}
 
 			function renderBugProject (mergeThing) {
+				// 获取缺陷分配情况，之后根据 bugid 找到 userid
+				var allArrange = JSON.parse(localStorage.getItem('allArrange'))
+				// 获取所有用户，之后根据 userid 找到 name
+				var allUser = JSON.parse(localStorage.getItem('allUser'))
+
                 // 遍历每一个项目
 				for (var i = 0; i < mergeThing.length; i++) {
 					// 项目信息
@@ -655,7 +676,7 @@
 														'<th>缺陷名称</th>' +
 														'<th class="hidden-xs">缺陷描述</th>' +
 														'<th class="hidden-480">优先级</th>' +
-														// '<th class="hidden-480">负责人</th>' +
+														'<th class="hidden-480">负责人</th>' +
 														'<th>完成状态</th>' +
 														'<th>创建时间</th>' +
 														'<th>操作</th>' +
@@ -681,17 +702,38 @@
                         var bugName = bug[j].bugName
                         var detail = bug[j].detail
                         var level = bug[j].level
-                        // 负责人字段缺失
-                        // var owner = bug[j].owner
-                        // owner = !owner ? '暂未上线' : owner
-                        var finishedStatus = bug[j].finishedStatus
+						var finishedStatus = bug[j].finishedStatus
                         var createTime = bug[j].createTime
+
+                        // 负责人字段缺失，只能通过 allArrange 里找到 bugId 对应的 userId
+						// 再根据 userId 找到 userName
+                        var owner = ''
+						var userId = 0 // 初始化
+						allArrange.every(function (v) {
+							if (v.budId === bugId) {
+								userId = v.userId
+								// 跳出循环
+								return false
+							}
+						})
+						allUser.every(function (v) {
+							if (v.userId === userId) {
+						        owner = v.name
+								return false
+							}
+						})
+						if (userId === 0) {
+							owner = '暂未分配'
+						}
 
 						// 传递 bugInfo 到模态框，该 bugInfo 必须被 JSON.stringify 后才能拼接
 						var bugInfo = {
                             bugId: bugId,
                             bugName: bugName,
-                            detail: detail
+                            detail: detail,
+							level: level,
+							userId: userId,
+							finishedStatus: finishedStatus
 						}
 
 						// 将优先级和完成状态，从数字状态变成汉语提示
@@ -717,7 +759,7 @@
                             '<td>' + bugName + '</td>' +
                             '<td class="hidden-xs">' + detail + '</td>' +
                             '<td class="hidden-480">' + level + ' </td>' +
-                            // '<td>' + owner  + '</td>' +
+                            '<td>' + owner  + '</td>' +
                             '<td>' + finishedStatus + '</td>' +
                             '<td>' + createTime + '</td>' +
                             '<td>' +
@@ -734,73 +776,76 @@
 				}
 			}
 
-			// 渲染所有负责人到 #updateModal 的负责人选项卡中
-			$.get('http://yiranblade.cn/bugsystem/user', function (data) {
-			    var users = data.data
-				for (var i = 0; i < users.length; i++) {
-			        var tempOption = '<option value="' + users[i].userId + '">' + users[i].name + '</option>'
-			        $('#form-field-2-4').append(tempOption)
-				}
-			})
-
 			// 每次点击不同的缺陷信息时，给表单中默认填充该信息未修改的值
 			function renderBugInfo (bugInfo) {
 				var bugId = bugInfo.bugId
                 var bugName = bugInfo.bugName
                 var detail = bugInfo.detail
+				var level = bugInfo.level
+				var userId = bugInfo.userId
+				var finishedStatus = bugInfo.finishedStatus
 
 				localStorage.setItem('bugId', bugId)
                 $('#form-field-2-1').val(bugName)
                 $('#form-field-2-2').val(detail)
 
-				// 情况选项卡的已选值
-                $('#form-field-2-3').val('')
-                // $('#form-field-2-5').val('')
-                $('#form-field-2-5').val('')
+				// 优先级填补
+                $('#form-field-2-3').val(level)
+				// 负责人填补
+				if (userId === 0) $('#form-field-2-4').val()
+                else $('#form-field-2-4').val(userId)
+				// 完成状态填补
+                $('#form-field-2-5').val(finishedStatus)
 			}
 
             // 更新缺陷信息
             function updateBug () {
                 var projectId = localStorage.getItem('projectId')
                 var bugId = localStorage.getItem('bugId')
-
                 var bugName = $('#form-field-2-1').val()
                 var detail = $('#form-field-2-2').val()
                 var level = $('#form-field-2-3').val()
-                // var owner = $('#form-field-2-4').val()
+				var userId = $('#form-field-2-4').val()
                 var finishedStatus = $('#form-field-2-5').val()
 
-				if (!bugName || !detail || !level || !finishedStatus) {
+				if (!bugName || !detail || !level || !userId || !finishedStatus) {
                     alert('请填写完整！')
 					return
 				}
 
-				var put_data = {
-                    bugId: bugId,
-                    bugName: bugName,
-                    detail: detail,
-                    projectId: projectId,
-                    level: level,
-					// owner: owner,
-                    finishedStatus: finishedStatus
-				}
+				// userId 和 bugId 作为参数，分配缺陷
+				$.get('http://yiranblade.cn/bugsystem/bug/' + bugId + '&' + userId, function (data) {
+					if (data.data = 200) {
+						console.log('缺陷分配用户：成功')
 
-                put_data = JSON.stringify(put_data)
+						var put_data = {
+							bugId: bugId,
+							bugName: bugName,
+							detail: detail,
+							projectId: projectId,
+							level: level,
+							finishedStatus: finishedStatus
+						}
 
-                $.ajax({
-                    url: 'http://yiranblade.cn/bugsystem/bug',
-                    type: 'PUT',
-                    contentType: 'application/json; charset=utf-8',
-					data: put_data,
-                    async: false,
-                    success: function (data) {
-                        alert('更新成功，点击刷新页面！')
-						window.location.href = './bugs.html'
-                    },
-					error: function (data) {
-                        alert('更新失败，请联系管理员！')
+						put_data = JSON.stringify(put_data)
+
+						// 更新剩下的信息
+						$.ajax({
+							url: 'http://yiranblade.cn/bugsystem/bug',
+							type: 'PUT',
+							contentType: 'application/json; charset=utf-8',
+							data: put_data,
+							async: false,
+							success: function (data) {
+								alert('更新成功，点击刷新页面！')
+								window.location.href = './bugs.html'
+							},
+							error: function (data) {
+								alert('更新失败，请联系管理员！')
+							}
+						})
 					}
-                })
+				})
             }
 		</script>
 	</body>
