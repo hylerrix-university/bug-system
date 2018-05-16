@@ -710,16 +710,20 @@
                         var owner = ''
 						var userId = 0 // 初始化
 						allArrange.every(function (v) {
-							if (v.budId === bugId) {
+							if (v.bugId === bugId) {
 								userId = v.userId
 								// 跳出循环
 								return false
+							} else {
+								return true
 							}
 						})
-						allUser.every(function (v) {
-							if (v.userId === userId) {
-						        owner = v.name
+						allUser.every(function (k) {
+							if (k.userId == userId) {
+						        owner = k.name
 								return false
+							} else {
+								return true
 							}
 						})
 						if (userId === 0) {
@@ -814,7 +818,7 @@
 				}
 
 				// userId 和 bugId 作为参数，分配缺陷
-				$.get('http://yiranblade.cn/bugsystem/bug/' + bugId + '&' + userId, function (data) {
+				$.get('http://yiranblade.cn/bugsystem/bug/arrange/' + bugId + '&' + userId, function (data) {
 					if (data.data = 200) {
 						console.log('缺陷分配用户：成功')
 
@@ -838,7 +842,7 @@
 							async: false,
 							success: function (data) {
 								alert('更新成功，点击刷新页面！')
-								window.location.href = './bugs.html'
+								window.location.reload(true)
 							},
 							error: function (data) {
 								alert('更新失败，请联系管理员！')
